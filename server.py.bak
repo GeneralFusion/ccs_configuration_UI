@@ -1,0 +1,7 @@
+from flask import Flask, send_from_directory, render_template
+
+app = Flask(__name__, static_folder='reactui/build')
+print("hi")
+@app.route('/time')
+def get_current_time():
+    return render_template('index.html')

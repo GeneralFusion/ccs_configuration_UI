@@ -1,0 +1,38 @@
+clients:
+  '1':
+    channel: 6
+    channelCode: 32c
+    connectedDevices:
+      Accelerometers:
+        '1':
+          name: Blittle done
+          samplingRate: 100000
+          triggerDelay: 10
+        '2':
+          channel: 6
+          name: Small Drone version 2
+          samplingRate: 72000
+          triggerDelay: 4.95
+      Scopes:
+        '1':
+          name: bigScope5
+          samplingRate: 100000
+          triggerDelay: 10
+        '2':
+          channel: 10
+          name: The big scope
+          samplingRate: 72000
+          triggerDelay: 4.95
+    isShooting: false
+    samplingRate: 61000
+    temperature: 90
+    triggerDelay: 2.89
+    voltage: DC12
+  '2':
+    channel: 5
+    channelCode: 12j
+    isShooting: true
+    samplingRate: 78000
+    temperature: 90
+    triggerDelay: 10
+    voltage: DC150

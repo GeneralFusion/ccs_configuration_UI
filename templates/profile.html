@@ -1,0 +1,34 @@
+
+{%extends 'base.html'%}
+
+{% block content%}
+<body>
+    
+
+<div class="columns">.
+  <div class="column is-4 is-offset-4">
+    <div class="box">
+      <form action = "{{ request.path }}" method = "post">
+        <div class="field">
+          <input class="checkbox" type = "checkbox" name = "isDarkMode" {% if isDarkMode %} checked {% endif %} value="True"/>
+          <label class="checkbox" for = "isDarkMode">Dark mode</label>
+        </div>
+
+        <div class="field">
+          <label class="label" for = "name">Name: </label>
+          <input class="input" type = "text" name = "name" value="{{name}}"/>
+  
+        </div>
+        
+        <input class="button" type = "submit" />
+      </form>
+    </div>
+  </div>
+
+
+</div>
+
+
+  
+</body>
+{% endblock %}

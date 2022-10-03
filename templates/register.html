@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  </head>
+   <body>
+   
+      <h3>Register</h3>
+      <hr/>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+      {% endwith %}
+      <div class="columns">
+         <div class="column is-one-third is-offset-4">
+            <div class="box">
+               <form action = "{{ request.path }}" method = "post">
+                     <div class="field">
+                        <label class="label" for = "name">Name</label>
+                        <div class="control ">
+                           <input class="input is-primary" type = "text" name = "name" placeholder = "Name" />
+                        </div>
+                     </div>
+                     <div class="field">
+                        <label class="label" for = "password">Password</label>
+                        <div class="control">
+                           <input class="input" type = "text" name = "password" placeholder = "Password" />
+                        </div>
+                     </div>
+                     <div class="field">
+                        <label class="label" for = "permissionLevel">Permission Level</label>
+                        <div class="control">
+                    
+                           <input class="input" type = "number" name = "permissionLevel" placeholder = "Permission Level" />
+                                             </div>
+                     </div>
+             
+
+                     <input class="button is-primary" type = "submit" value = "Submit" />
+         
+               </form>
+            </div>
+
+         </div>
+         
+      </div>
+
+      
+   </body>
+</html>

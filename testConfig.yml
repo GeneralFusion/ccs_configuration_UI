@@ -1,0 +1,1037 @@
+clients:
+  '1':
+    active: true
+    backupSavePath: /nfs/pi3
+    connectedDevices:
+      Scopes:
+        '1':
+          activeChannels:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          channelsConfigSettings:
+            '1':
+              bwLimit: false
+              coupling: DC
+              id: ch1
+              name: SC9
+              probe: 1
+              tdiv: 30e-3
+              timeOffset: 0
+              vdiv: 100e-3
+              voltageOffset: -300e-3
+            '2':
+              bwLimit: false
+              coupling: DC
+              id: ch2
+              name: SC9Zoom
+              probe: 1
+              tdiv: 30e-3
+              timeOffset: 0
+              vdiv: 2e-3
+              voltageOffset: -0.0069
+            '3':
+              bwLimit: false
+              coupling: DC
+              id: ch3
+              name: SC10
+              probe: 1
+              tdiv: 30e-3
+              timeOffset: 0
+              vdiv: 100e-3
+              voltageOffset: -109e-3
+            '4':
+              bwLimit: false
+              coupling: DC
+              id: ch4
+              name: SC10Zoom
+              probe: 1
+              tdiv: 30e-3
+              timeOffset: 0
+              vdiv: 2e-3
+              voltageOffset: -0.0068
+            '5':
+              bwLimit: false
+              coupling: DC
+              id: ch5
+              name: SC13
+              probe: 1
+              tdiv: 30e-3
+              timeOffset: 0
+              vdiv: 100e-3
+              voltageOffset: -300e-3
+            '6':
+              bwLimit: false
+              coupling: DC
+              id: ch6
+              name: SC13Zoom
+              probe: 1
+              tdiv: 30e-3
+              timeOffset: 0
+              vdiv: 2e-3
+              voltageOffset: -0.0073
+            '7':
+              bwLimit: false
+              coupling: DC
+              id: ch7
+              name: SC16
+              probe: 1
+              tdiv: 30e-3
+              timeOffset: 0
+              vdiv: 100e-3
+              voltageOffset: -740e-3
+            '8':
+              bwLimit: false
+              coupling: DC
+              id: ch8
+              name: SC16Zoom
+              probe: 1
+              tdiv: 30e-3
+              timeOffset: 0
+              vdiv: 2e-3
+              voltageOffset: -0.007
+          connectionString: TCPIP0::172.25.70.59::inst0::INSTR
+          fileFormat: 0
+          filePath: /nfs/expdata/PI3
+          memSize: 700K
+          name: scint_scope
+          samplingRate: 1e9
+          tdiv: 5e-3
+          timeOffset: 20e-3
+          triggerDelay: 0
+          triggerLevel: 1.5
+          triggerReference: Digitizer Timing
+          triggerType: AUX
+          type: visa_agilent
+          waveFormat: WORD
+        '10':
+          activeChannels:
+          - 1
+          - 2
+          - 3
+          - 4
+          channelsConfigSettings:
+            '1':
+              bwLimit: false
+              coupling: DC
+              id: ch1
+              name: TS_APD_A5
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '2':
+              bwLimit: false
+              coupling: DC
+              id: ch2
+              name: TS_APD_A6
+              probe: 1
+              tdiv: 50 e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '3':
+              bwLimit: false
+              coupling: DC
+              id: ch3
+              name: TS_APD_E1
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '4':
+              bwLimit: false
+              coupling: DC
+              id: ch4
+              name: TS_APD_E2
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+          connectionString: TCPIP0::172.25.70.121::inst0::INSTR
+          fileFormat: 0
+          filePath: /nfs/expdata/PI3
+          memSize: 700K
+          name: Thomson_Scope_2
+          tdiv: 50e-9
+          timeOffset: 0
+          triggerDelay: 0
+          triggerLevel: 1
+          triggerReference: Digitizer Timing
+          triggerType: External
+          type: visa_agilent
+          waveFormat: BYTE
+        '11':
+          activeChannels:
+          - 1
+          - 2
+          - 3
+          - 4
+          channelsConfigSettings:
+            '1':
+              bwLimit: false
+              coupling: DC
+              id: ch1
+              name: TS_APD_E3
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '2':
+              bwLimit: false
+              coupling: DC
+              id: ch2
+              name: TS_APD_E4
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '3':
+              bwLimit: false
+              coupling: DC
+              id: ch3
+              name: TS_APD_E5
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '4':
+              bwLimit: false
+              coupling: DC
+              id: ch4
+              name: TS_APD_E6
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+          connectionString: TCPIP0::172.25.70.122::inst0::INSTR
+          fileFormat: 0
+          filePath: /nfs/expdata/PI3
+          memSize: 700K
+          name: Thomson_Scope_3
+          tdiv: 50e-9
+          timeOffset: 0
+          triggerDelay: 0
+          triggerLevel: 1
+          triggerReference: Digitizer Timing
+          triggerType: External
+          type: visa_agilent
+          waveFormat: BYTE
+        '12':
+          activeChannels:
+          - 1
+          - 2
+          - 3
+          - 4
+          channelsConfigSettings:
+            '1':
+              bwLimit: false
+              coupling: DC
+              id: ch1
+              name: TS_APD_F1
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '2':
+              bwLimit: false
+              coupling: DC
+              id: ch2
+              name: TS_APD_F2
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '3':
+              bwLimit: false
+              coupling: DC
+              id: ch3
+              name: TS_APD_F3
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '4':
+              bwLimit: false
+              coupling: DC
+              id: ch4
+              name: TS_APD_F4
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+          connectionString: TCPIP0::172.25.70.123::inst0::INSTR
+          fileFormat: 0
+          filePath: /nfs/expdata/PI3
+          memSize: 700K
+          name: Thomson_Scope_4
+          tdiv: 50e-9
+          timeOffset: 0
+          triggerDelay: 0
+          triggerLevel: 1
+          triggerReference: Digitizer Timing
+          triggerType: External
+          type: visa_agilent
+          waveFormat: BYTE
+        '13':
+          activeChannels:
+          - 1
+          - 2
+          - 3
+          - 4
+          channelsConfigSettings:
+            '1':
+              bwLimit: false
+              coupling: DC
+              id: ch1
+              name: TS_APD_F5
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '2':
+              bwLimit: false
+              coupling: DC
+              id: ch2
+              name: TS_APD_F6
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '3':
+              bwLimit: false
+              coupling: DC
+              id: ch3
+              name: TS_APD_C1
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '4':
+              bwLimit: false
+              coupling: DC
+              id: ch4
+              name: TS_APD_C2
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+          connectionString: TCPIP0::172.25.70.124::inst0::INSTR
+          fileFormat: 0
+          filePath: /nfs/expdata/PI3
+          memSize: 700K
+          name: Thomson_Scope_5
+          tdiv: 50e-9
+          timeOffset: 0
+          triggerDelay: 0
+          triggerLevel: 1
+          triggerReference: Digitizer Timing
+          triggerType: External
+          type: visa_agilent
+          waveFormat: BYTE
+        '14':
+          activeChannels:
+          - 1
+          - 2
+          - 3
+          - 4
+          channelsConfigSettings:
+            '1':
+              bwLimit: false
+              coupling: DC
+              id: ch1
+              name: TS_APD_C3
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '2':
+              bwLimit: false
+              coupling: DC
+              id: ch2
+              name: TS_APD_C4
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '3':
+              bwLimit: false
+              coupling: DC
+              id: ch3
+              name: TS_APD_C5
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '4':
+              bwLimit: false
+              coupling: DC
+              id: ch4
+              name: TS_APD_C6
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+          connectionString: TCPIP0::172.25.70.125::inst0::INSTR
+          fileFormat: 0
+          filePath: /nfs/expdata/PI3
+          memSize: 700K
+          name: Thomson_Scope_6
+          tdiv: 50e-9
+          timeOffset: 0
+          triggerDelay: 0
+          triggerLevel: 1
+          triggerReference: Digitizer Timing
+          triggerType: External
+          type: visa_agilent
+          waveFormat: BYTE
+        '15':
+          activeChannels:
+          - 1
+          - 2
+          - 3
+          - 4
+          channelsConfigSettings:
+            '1':
+              bwLimit: false
+              coupling: DC
+              id: ch1
+              name: TS_APD_B1
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '2':
+              bwLimit: false
+              coupling: DC
+              id: ch2
+              name: TS_APD_B2
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '3':
+              bwLimit: false
+              coupling: DC
+              id: ch3
+              name: TS_APD_B3
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '4':
+              bwLimit: false
+              coupling: DC
+              id: ch4
+              name: TS_APD_B4
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+          connectionString: TCPIP0::172.25.70.126::inst0::INSTR
+          fileFormat: 0
+          filePath: /nfs/expdata/PI3
+          memSize: 700K
+          name: Thomson_Scope_7
+          tdiv: 50e-9
+          timeOffset: 0
+          triggerDelay: 0
+          triggerLevel: 1
+          triggerReference: Digitizer Timing
+          triggerType: External
+          type: visa_agilent
+          waveFormat: BYTE
+        '16':
+          activeChannels:
+          - 1
+          - 2
+          - 3
+          - 4
+          channelsConfigSettings:
+            '1':
+              bwLimit: false
+              coupling: DC
+              id: ch1
+              name: TS_APD_B5
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '2':
+              bwLimit: false
+              coupling: DC
+              id: ch2
+              name: TS_APD_B6
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '3':
+              bwLimit: false
+              coupling: DC
+              id: ch3
+              name: TS_APD_D1
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '4':
+              bwLimit: false
+              coupling: DC
+              id: ch4
+              name: TS_APD_D2
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+          connectionString: TCPIP0::172.25.70.127::inst0::INSTR
+          fileFormat: 0
+          filePath: /nfs/expdata/PI3
+          memSize: 700K
+          name: Thomson_Scope_8
+          tdiv: 50e-9
+          timeOffset: 0
+          triggerDelay: 0
+          triggerLevel: 1
+          triggerReference: Digitizer Timing
+          triggerType: External
+          type: visa_agilent
+          waveFormat: BYTE
+        '17':
+          activeChannels:
+          - 1
+          - 2
+          - 3
+          - 4
+          channelsConfigSettings:
+            '1':
+              bwLimit: false
+              coupling: DC
+              id: ch1
+              name: TS_APD_D3
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '2':
+              bwLimit: false
+              coupling: DC
+              id: ch2
+              name: TS_APD_D4
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '3':
+              bwLimit: false
+              coupling: DC
+              id: ch3
+              name: TS_APD_D5
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '4':
+              bwLimit: false
+              coupling: DC
+              id: ch4
+              name: POWER_EXIT
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 200e-3
+              voltageOffset: 400e-3
+          connectionString: TCPIP0::172.25.70.128::inst0::INSTR
+          fileFormat: 0
+          filePath: /nfs/expdata/PI3
+          memSize: 700K
+          name: Thomson_Scope_9
+          tdiv: 50e-9
+          timeOffset: 0
+          triggerDelay: 0
+          triggerLevel: 1
+          triggerReference: Digitizer Timing
+          triggerType: External
+          type: visa_agilent
+          waveFormat: BYTE
+        '18':
+          activeChannels:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 9
+          - 10
+          - 11
+          - 12
+          - 17
+          - 18
+          channelsConfigSettings:
+            '1':
+              bwLimit: false
+              coupling: DC
+              id: s1_ch1
+              name: A_AOI1
+              probe: 10
+              tOffset: 0
+              tdiv: 1
+              vOffset: 0
+              vdiv: 1
+            '10':
+              bwLimit: false
+              coupling: DC
+              id: s1_ch10
+              name: A_AONI3
+              probe: 10
+              tOffset: 0
+              tdiv: 1
+              vOffset: 0
+              vdiv: 1
+            '11':
+              bwLimit: false
+              coupling: DC
+              id: s1_ch11
+              name: B_AOI3
+              probe: 10
+              tOffset: 0
+              tdiv: 1
+              vOffset: 0
+              vdiv: 1
+            '12':
+              bwLimit: false
+              coupling: DC
+              id: s1_ch12
+              name: B_AONI3
+              probe: 10
+              tOffset: 0
+              tdiv: 1
+              vOffset: 0
+              vdiv: 1
+            '17':
+              bwLimit: false
+              coupling: DC
+              id: s2_ch1
+              name: dig_trig
+              probe: 10
+              tOffset: 0
+              tdiv: 1
+              vOffset: 0
+              vdiv: 1
+            '18':
+              bwLimit: false
+              coupling: DC
+              id: s2_ch2
+              name: test_signal
+              probe: 10
+              tOffset: 0
+              tdiv: 1
+              vOffset: 0
+              vdiv: 1
+            '2':
+              bwLimit: false
+              coupling: DC
+              id: s1_ch2
+              name: A_AONI1
+              probe: 10
+              tOffset: 0
+              tdiv: 1
+              vOffset: 0
+              vdiv: 1
+            '3':
+              bwLimit: false
+              coupling: DC
+              id: s1_ch3
+              name: B_AOI1
+              probe: 10
+              tOffset: 0
+              tdiv: 1
+              vOffset: 0
+              vdiv: 1
+            '4':
+              bwLimit: false
+              coupling: DC
+              id: s1_ch4
+              name: B_AONI1
+              probe: 10
+              tOffset: 0
+              tdiv: 1
+              vOffset: 0
+              vdiv: 1
+            '9':
+              bwLimit: false
+              coupling: DC
+              id: s1_ch9
+              name: A_AOI3
+              probe: 10
+              tOffset: 0
+              tdiv: 1
+              vOffset: 0
+              vdiv: 1
+          connectionString: 172.25.226.231
+          fileFormat: 0
+          filePath: /nfs/expdata/PI3
+          memSize: 100000
+          name: acq2106_193
+          samplingRate: 2e6
+          tdiv: null
+          timeOffset: null
+          triggerDelay: 0
+          triggerLevel: null
+          triggerReference: null
+          triggerType: external
+          type: dtacq
+        '3':
+          activeChannels:
+          - 1
+          - 2
+          - 3
+          - 4
+          channelsConfigSettings:
+            '1':
+              bwLimit: false
+              coupling: A1M
+              id: ch1
+              name: IFxxx_CO2_refINTERSCOPE1
+              probe: 10
+              tdiv: 2MS
+              timeOffset: 12MS
+              vdiv: 1v
+              voltageOffset: 0
+            '2':
+              bwLimit: false
+              coupling: A50
+              id: ch2
+              name: IF221_CO2
+              probe: 1
+              tdiv: 2MS
+              timeOffset: 12MS
+              vdiv: 10mv
+              voltageOffset: 0
+            '3':
+              bwLimit: false
+              coupling: A50
+              id: ch3
+              name: IF239_CO2
+              probe: 1
+              tdiv: 2MS
+              timeOffset: 12MS
+              vdiv: 10mv
+              voltageOffset: 0
+            '4':
+              bwLimit: false
+              coupling: A50
+              id: ch4
+              name: IF258_CO2
+              probe: 1
+              tdiv: 2MS
+              timeOffset: 12MS
+              vdiv: 10mv
+              voltageOffset: 0
+          connectionString: TCPIP0::172.25.226.107::inst0::INSTR
+          fileFormat: 0
+          filePath: /nfs/expdata/PI3
+          memSize: 700K
+          name: LeCroy_INTERSCOPE1
+          samplingRate: 1e9
+          tdiv: 2MS
+          timeOffset: 19e-3
+          triggerDelay: 12MS
+          triggerLevel: 2.5V
+          triggerReference: Digitizer Timing
+          triggerType: EX5
+          type: visa_lecroy
+          waveFormat: BYTE
+        '4':
+          activeChannels:
+          - 1
+          - 2
+          - 3
+          - 4
+          channelsConfigSettings:
+            '1':
+              bwLimit: false
+              coupling: A1M
+              id: ch1
+              name: IFxxx_CO2_refINTERSCOPE2
+              probe: 10
+              tdiv: 2MS
+              timeOffset: 12MS
+              vdiv: 2v
+              voltageOffset: 0
+            '2':
+              bwLimit: false
+              coupling: A50
+              id: ch2
+              name: IF267_CO2
+              probe: 1
+              tdiv: 2MS
+              timeOffset: 12MS
+              vdiv: 10mv
+              voltageOffset: 0
+            '3':
+              bwLimit: false
+              coupling: A50
+              id: ch3
+              name: IF276_CO2
+              probe: 1
+              tdiv: 2MS
+              timeOffset: 12MS
+              vdiv: 10mv
+              voltageOffset: 0
+            '4':
+              bwLimit: false
+              coupling: A1M
+              id: ch4
+              name: IF_INTERSCOPE2_TRIGGER
+              probe: 1
+              tdiv: 2MS
+              timeOffset: 12MS
+              vdiv: 2v
+              voltageOffset: 0
+          connectionString: TCPIP0::172.25.226.128::inst0::INSTR
+          fileFormat: 0
+          filePath: /nfs/expdata/PI3
+          memSize: 700K
+          name: LeCroy_INTERSCOPE2
+          samplingRate: 1e9
+          tdiv: 2MS
+          timeOffset: 19e-3
+          triggerDelay: 12MS
+          triggerLevel: 2.5V
+          triggerReference: Digitizer Timing
+          triggerType: EX5
+          type: visa_lecroy
+          waveFormat: BYTE
+        '5':
+          activeChannels:
+          - 1
+          - 2
+          - 3
+          - 4
+          channelsConfigSettings:
+            '1':
+              bwLimit: false
+              coupling: A1M
+              id: ch1
+              name: IFxxx_HeNe_refINTERSCOPE3
+              probe: 10
+              tdiv: 2MS
+              timeOffset: 12MS
+              vdiv: 2v
+              voltageOffset: 0
+            '2':
+              bwLimit: false
+              coupling: A50
+              id: ch2
+              name: IF221_HeNe
+              probe: 1
+              tdiv: 2MS
+              timeOffset: 12MS
+              vdiv: 500mv
+              voltageOffset: 0
+            '3':
+              bwLimit: false
+              coupling: A50
+              id: ch3
+              name: IF239_HeNe
+              probe: 1
+              tdiv: 2MS
+              timeOffset: 12MS
+              vdiv: 500mv
+              voltageOffset: 0
+            '4':
+              bwLimit: false
+              coupling: A50
+              id: ch4
+              name: IF258_HeNe
+              probe: 1
+              tdiv: 2MS
+              timeOffset: 12MS
+              vdiv: 500mv
+              voltageOffset: 0
+          connectionString: TCPIP0::172.25.226.106::inst0::INSTR
+          fileFormat: 0
+          filePath: /nfs/expdata/PI3
+          memSize: 700K
+          name: LeCroy_INTERSCOPE3
+          samplingRate: 1e9
+          tdiv: 2MS
+          timeOffset: 19e-3
+          triggerDelay: 12MS
+          triggerLevel: 2.5V
+          triggerReference: Digitizer Timing
+          triggerType: EX5
+          type: visa_lecroy
+          waveFormat: BYTE
+        '6':
+          activeChannels:
+          - 1
+          - 2
+          - 3
+          - 4
+          channelsConfigSettings:
+            '1':
+              bwLimit: false
+              coupling: A1M
+              id: ch1
+              name: IFxxx_HeNe_refINTERSCOPE4
+              probe: 10
+              tdiv: 2MS
+              timeOffset: 12MS
+              vdiv: 500mv
+              voltageOffset: 0
+            '2':
+              bwLimit: false
+              coupling: A50
+              id: ch2
+              name: IF267_HeNe
+              probe: 1
+              tdiv: 2MS
+              timeOffset: 12MS
+              vdiv: 500mv
+              voltageOffset: 0
+            '3':
+              bwLimit: false
+              coupling: A50
+              id: ch3
+              name: IF276_HeNe
+              probe: 1
+              tdiv: 2MS
+              timeOffset: 12MS
+              vdiv: 500mv
+              voltageOffset: 0
+            '4':
+              bwLimit: false
+              coupling: D50
+              id: ch4
+              name: IF_INTERSCOPE4_TRIGGER
+              probe: 1
+              tdiv: 2MS
+              timeOffset: 12MS
+              vdiv: 2v
+              voltageOffset: 0
+          connectionString: TCPIP0::172.25.226.172::inst0::INSTR
+          fileFormat: 0
+          filePath: /nfs/expdata/PI3
+          memSize: 700K
+          name: LeCroy_INTERSCOPE4
+          samplingRate: 1e9
+          tdiv: 2MS
+          timeOffset: 19e-3
+          triggerDelay: 12MS
+          triggerLevel: 2.5V
+          triggerReference: Digitizer Timing
+          triggerType: EX5
+          type: visa_lecroy
+          waveFormat: BYTE
+        '9':
+          activeChannels:
+          - 1
+          - 2
+          - 3
+          - 4
+          channelsConfigSettings:
+            '1':
+              bwLimit: false
+              coupling: DC
+              id: ch1
+              name: TS_APD_A1
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '2':
+              bwLimit: false
+              coupling: DC
+              id: ch2
+              name: TS_APD_A2
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '3':
+              bwLimit: false
+              coupling: DC
+              id: ch3
+              name: TS_APD_A3
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+            '4':
+              bwLimit: false
+              coupling: DC
+              id: ch4
+              name: TS_APD_A4
+              probe: 1
+              tdiv: 50e-9
+              timeOffset: 0
+              vdiv: 50e-3
+              voltageOffset: 100e-3
+          connectionString: TCPIP0::172.25.70.120::inst0::INSTR
+          fileFormat: 0
+          filePath: /nfs/expdata/PI3
+          memSize: 700K
+          name: Thomson_Scope_1
+          tdiv: 50e-9
+          timeOffset: 0
+          triggerDelay: 0
+          triggerLevel: 1
+          triggerReference: Digitizer Timing
+          triggerType: External
+          type: visa_agilent
+          waveFormat: BYTE
+    connectionString: 172.25.226.222
+    databases:
+      events: events
+      schema: plasmaInjector_3
+      tagHistory: tag_history
+    name: PI3_TCP_LV_Client
+    savePath: /nfs/expdata/PI3
+    slackChannels:
+      Activity: PI3_ACTIVITY
+      Alarms: alarms Channel
+      Events: PI3_EVENTS
+    services:
+      BrightDetect:
+        active: true
+        configVarPath: "/nfs/expdata/PI3/Configuration/brightdetect_vars.yml"
+    

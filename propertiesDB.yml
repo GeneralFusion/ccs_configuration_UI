@@ -1,0 +1,404 @@
+---
+channel: 
+  name: Channel
+  type: dropDown
+  id: 0
+  size: small 
+  permission: 0
+  options:
+     selections:
+      - 10
+      - 5
+      - 6
+      - 2
+isShooting: 
+  name: Shooting
+  type: boolean
+  id: 1
+  size: small
+  permission: 0
+  options:
+samplingRate: 
+  name: Sampling Rate
+  type: slider
+  size: normal  
+  id: 2
+  permission: 0
+  options:
+    disableSwap: true
+    min: 1000
+    max: 100000
+    step: 1000
+    marks: true
+    hasInputField: true
+    track: normal
+temperature:
+  name: "Temperature (\U00002103)"
+  type: slider
+  size: normal
+  permission: 0
+  id: 3
+  options:
+    disableSwap: true
+    min: 50
+    max: 104.5
+    step: null
+    marks: 
+      - value: 2
+        label: "2\U00002103"
+      - value: 50
+        label: "50\U00002103"
+      - value: 80
+        label: "80\U00002103"
+      - value: 90
+        label: "90\U00002103"
+      - value: 104.5
+        label: "104.5\U00002103"
+    hasInputField: false
+    track: normal
+triggerDelay: 
+  name: Trigger Delay
+  type: slider
+  size: normal
+  id: 4
+  permission: 0
+  options:
+    disableSwap: true
+    min: 0
+    max: 10
+    step: 0.01
+    marks: false
+    hasInputField: false
+    track: normal
+voltage:
+  name: Voltage
+  type: dropDown
+  size: small  
+  id: 4
+  options:
+    differentLabels: true
+    selections:
+      - value: DC10
+        label: "10\U00002126"
+      - value: DC150
+        label: "15M\U00002126"
+      - value: DC12
+        label: "12\U000000B5\U00002126"
+channelCode:
+  name: Channel Code
+  type: dropDown
+  size: small
+  id: 5
+  options:
+    differentLabels: false
+    selections:
+      - 32c
+      - 21z
+      - 59g
+      - 12j
+      - 10p
+      - 89m
+connectedDevices:
+  name: Connected Devices
+  size: large
+  type: section
+  id: 6
+  options:
+Scopes:
+  name: Scopes
+  size: normal
+  id: 7
+  type: collapsible
+  options:
+Accelerometers:
+  name: Accelerometers
+  id: 8
+  size: normal
+  type: collapsible
+  options:
+name:
+  name: Name
+  size: normal
+  id: 9
+  type: text
+waveFormat:
+  name: Wave Format
+  type: dropDown
+  size: small
+  id: 10
+  options:
+    differentLabels: false
+    selections:
+      - WORD
+      - BYTE
+filePath:
+  name: File Path
+  type: text
+  size: normal
+  id: 11
+triggerDelay:
+  name: Trigger Delay
+  type: dropDown
+  size: small
+  id: 12
+  options:
+    differentLabels: false
+    selections:
+      - 0
+      - 12MS
+      - 14MS
+      - 20MS
+triggerType:
+  name: Trigger Type
+  type: dropDown
+  size: small
+  id: 13
+  options:
+    differentLabels: false
+    selections:
+      - AUX
+      - EX5
+timeOffset:
+  name: Time Offset
+  type: slider
+  id: 14
+  size: normal
+  options:
+    disableSwap: true
+    min: 0.01
+    max: 1
+    step: 0.01
+    marks: false
+triggerLevel:
+  name: Trigger Level
+  type: dropDown
+  id: 15
+  size: normal
+  options:
+    differentLabels: false
+    selections:
+      - 2.5V
+      - 1.5
+triggerReference:
+  name: Trigger Reference
+  id: 16
+  size: normal
+  type: dropDown
+  options:
+    differentLabels: false
+    selections:
+      - Digitizer Timing
+      - 'null'
+fileFormat:
+  name: File Format
+  id: 17
+  size: small
+  type: dropDown
+  options: 
+    differentLabels: true
+    selections:
+      - value : 0
+        label : BSON
+      - value: 1
+        label: JSON
+      - value: 2
+        label: CSV 
+connectionString:
+  name: Connection String
+  id: 18
+  size: normal
+  type: text
+
+  
+activeChannels:
+  name: Active Channels
+  type: undefined
+  id: 19
+tdiv:
+  name: Time Division
+  id: 20
+  size: small
+  type: slider
+  options:
+    disableSwap: true
+    min: 0.0001
+    max: 1
+    step: 0.01
+    marks: false
+memSize:
+  name: Memory Size
+  id: 21
+  type: dropDown
+  size: small
+  options:
+    differentLabels: false
+    selections:
+      - 700K
+      - 800K
+      - 900K
+type:
+  name: Type
+  id: 22
+  size: normal
+  type: dropDown
+  options:
+    differentLabels: false
+    selections:
+      - visa_agilent
+      - visa_lecroy
+      - dtacq
+vdiv:
+  name: Voltage Division
+  id: 23
+  type: dropDown
+  size: small
+  options: 
+    differentLabels: false
+    selections:
+      - 1v
+      - 2v
+      - 5v
+      - 10v 
+      - 10mv
+      - 1
+coupling:
+  name: Coupling
+  id: 24
+  type: dropDown
+  size: small
+  options:
+    differentLabels: false
+    selections:
+      - A1M
+      - A50
+      - DC
+voltageOffset:
+  name: Voltage Offset
+  id: 25
+  type: dropDown
+  options:
+    selections:
+      - 0
+      - 100e-3
+vOffset:
+  name: Voltage Offset
+  id: 25
+  type: dropDown
+  options:
+    selections:
+      - 0
+      - 100e-3
+probe:
+  name: Probe
+  id: 26
+  size: small
+  type: slider
+  options:
+    min: 1
+    max: 10
+    step: 1
+tdiv:
+  name: Time Division
+  id: 27
+  type: dropDown
+  size: small
+  options:
+    differentLabels: false
+    selections: 
+      - 2MS
+      - 30e-3
+      - 1
+timeOffset:
+  name: Time Offset
+  id: 28
+  size: small
+  type: dropDown
+  options:
+    differentLabels: false
+    selections:
+      - 12MS
+      - 0
+      - 19e-3
+      - 20e-3
+tOffset:
+  name: Time Offset
+  id: 28
+  size: small
+  type: dropDown
+  options:
+    differentLabels: false
+    selections:
+      - 12MS
+      - 0
+      - 19e-3
+bwLimit:
+  name: Bandwidth Limit
+  id: 29
+  type: boolean
+channelsConfigSettings:
+  name: Channels Configurator
+  id: 30
+  type: channel
+backupSavePath:
+  name: Backup Path
+  id: 30
+  type: text
+  size: normal
+active:
+  name: Active
+  id: 31
+  type: boolean
+  size: normal
+savePath:
+  id: 32
+  name: Save Path
+  type: text
+  size: normal
+slackChannels:
+  id: 33
+  name: Slack Channels
+  type: collapsible
+  size: normal
+Alarms:
+  id: 34
+  name: Alarms
+  type: text
+  size: normal
+Events:
+  id: 35
+  name: Events
+  type: text
+  size: normal
+Activity:
+  id: 36
+  name: Activity
+  type: text
+  size: normal
+databases:
+  id: 37
+  type: collapsible
+  name: Databases
+tagHistory:
+  id: 38
+  type: text
+  name: Tag History
+events:
+  id: 39
+  type: text
+  name: Events
+schema:
+  id: 40
+  type: text
+  name: Schema
+services:
+  id: 41
+  type: collapsible
+  name: Services
+BrightDetect:
+  id: 42
+  type: section
+  name: Bright Detect
+configVarPath:
+  id: 43
+  type: text
+  name: Config Var Path

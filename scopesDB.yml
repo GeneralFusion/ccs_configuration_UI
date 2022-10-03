@@ -1,0 +1,470 @@
+visa_agilent:
+  maxChannels: 8
+  tdiv:
+    name: tdiv
+    type: slider
+    isDisabled: false
+    defaultValue: 0.005
+    options:
+      min: 50e-9
+      max: 1e-2
+      step: 1e-9
+  timeOffset:
+    name: timeOffset
+    type: slider
+    isDisabled: false
+    defaultValue: 0.002
+    options: 
+      min: 0
+      max: 20e-3
+      step: 0.001
+  name: 
+    name: Name
+    type: text
+    isDisabled: false
+    defaultValue: 'Name'  
+  triggerDelay:
+    name: triggerDelay
+    type: slider
+    isDisabled: false
+    defaultValue: 0
+    options:
+      min: 0
+      max: 1
+      step: 1e-3
+  triggerLevel: 
+    name: triggerLevel
+    type: slider
+    isDisabled: false
+    defaultValue: 0
+    options:
+      min: 0
+      max: 1000
+      step: 0.5
+  samplingRate: 
+    name: samplingRate
+    type: slider
+    isDisabled: true
+    defaultValue: 1000
+    options:
+      min: 1000
+      max: 100000
+      step: 1000
+  triggerType:
+    name: triggerType
+    isDisabled: false
+    defaultValue: External
+    type: dropDown
+    options:
+      differentLabels: false
+      selections:
+        - AUX
+        - EX5
+        - External
+        - external
+  memSize:
+    name: memSize
+    type: dropDown
+    defaultValue: 700K
+    options:
+      differentLabels: false
+      selections:
+        - 700K
+        - 800K
+        - 900K
+  triggerReference:
+    name: triggerReference
+    isDisabled: false
+    type: dropDown
+    defaultValue: Digitizer Timing
+    options:
+      differentLabels: false
+      selections:
+        - Digitizer Timing 
+  channelProperties:
+      vdiv:
+        name: vdiv
+        type: slider
+        isDisabled: false
+        defaultValue: 100e-3
+        options:
+          min: 0
+          max: 1
+          step: 0.001 
+      name: 
+        name: Name
+        type: text
+        isDisabled: false
+        defaultValue: 'Name'
+      coupling:
+        name: Coupling
+        type: dropDown
+        isDisabled: false
+        defaultValue: DC
+        options:
+          differentLabels: false
+          selections:
+            - DC
+            - A50
+            - A1M
+            - D50
+      bwLimit:
+        name: bwLimit
+        type: boolean
+        isDisabled: false
+        defaultValue: OFF
+      probe:
+        name: probe
+        type: dropDown
+        isDisabled: false
+        defaultValue: 1.0
+        options:
+          differentLabels: false
+          selections:
+            - 1.0
+      tdiv: 
+        name: tdiv
+        type: slider
+        isDisabled: false
+        defaultValue: 30e-3
+        options:
+          min: 0
+          max: 1
+          step: 0.001
+      timeOffset: 
+        name: timeOffset
+        type: dropDown
+        isDisabled: false
+        defaultValue: 1
+        options:
+          differentLabels: false
+          selections:
+            - 0
+            - 1
+      voltageOffset:
+        name: voltageOffset
+        type: slider
+        isDisabled: false
+        defaultValue: 100e-3
+        options:
+          min: 0
+          max: 1
+          step: 0.001
+
+
+  
+visa_lecroy:
+  maxChannels: 8
+  memSize:
+    name: memSize
+    type: dropDown
+    defaultValue: 700K
+    options:
+      differentLabels: false
+      selections:
+        - 700K
+        - 800K
+        - 900K
+  samplingRate: 
+    name: samplingRate
+    type: slider
+    isDisabled: false
+    defaultValue: 1000
+    options:
+      min: 1000
+      max: 100000
+      step: 1000
+  triggerDelay:
+    name: triggerDelay
+    type: dropDown
+    isDisabled: false
+    defaultValue: 12MS
+    options:
+      differentLabels: false
+      selections:
+        - 12MS
+        - 1MS
+  tdiv:
+    name: tdiv
+    type: dropDown
+    isDisabled: false
+    defaultValue: 2MS
+    options:
+      differentLabels: false
+      selections: ['1NS','2NS','5NS','10NS','20NS','50NS','100NS','200NS','500NS',
+           '1US','2US','5US','10US','20US','50US','100US','200US','500US',
+           '1MS','2MS','5MS','10MS','20MS','50MS','100MS','200MS','500MS',
+           '1S','2S','5S','10S','20S','50S','100S']
+  timeOffset:
+    name: timeOffset
+    type: slider
+    isDisabled: false
+    defaultValue: 0
+    options: 
+      min: 0
+      max: 20e-3
+      step: 0.001
+  name:
+    name: Name
+    type: text
+    isDisabled: false
+    defaultvalue: 'Name'
+  triggerLevel: 
+    name: triggerLevel
+    type: dropDown
+    defaultValue: 2.5V
+    isDisabled: false
+    options:
+      differentLabels: false
+      selections:
+        - 2.5V
+  triggerType:
+    name: triggerType
+    isDisabled: false
+    defaultValue: External
+    type: dropDown
+    options:
+      differentLabels: false
+      selections:
+        - AUX
+        - EX5
+        - External
+        - external
+  triggerReference:
+    name: triggerReference
+    isDisabled: false
+    type: dropDown
+    defaultValue: Digitizer Timing
+    options:
+      differentLabels: false
+      selections:
+        - Digitizer Timing 
+  channelProperties:
+    timeOffset:
+      name: timeOffset
+      type: dropDown
+      isDisabled: false
+      defaultValue: 1MS
+      options: 
+        differentLabels: false
+        selections:
+          - 12MS
+          - 1MS
+    vdiv:
+      name: vdiv
+      type: dropDown
+      isDisabled: false
+      defaultValue: 1v
+      options:
+        differentLabels: false
+        selections:
+          - 1v
+          - 2v
+          - 10mv
+          - 500mv
+    name:
+      name: Name
+      type: text
+      isDisabled: false
+      defaultValue: 'Name'
+    coupling:
+      name: Coupling
+      type: dropDown
+      isDisabled: false
+      defaultValue: DC
+      options:
+        differentLabels: false
+        selections:
+          - DC
+          - A50
+          - A1M
+          - D50
+    bwLimit:
+      name: bwLimit
+      type: boolean
+      isDisabled: false
+      defaultValue: OFF
+    probe:
+      name: probe
+      type: dropDown
+      isDisabled: false
+      defaultValue: 1
+      options:
+        differentLabels: false
+        selections:
+          - 0.1
+          - 0.2
+          - 0.5
+          - 1
+          - 2
+          - 5
+          - 10
+    tdiv: 
+      name: tdiv
+      type: dropDown
+      isDisabled: false
+      defaultValue: 2MS
+      options:
+        differentLabels: false
+        selections: ['1NS','2NS','5NS','10NS','20NS','50NS','100NS','200NS','500NS',
+          '1US','2US','5US','10US','20US','50US','100US','200US','500US',
+          '1MS','2MS','5MS','10MS','20MS','50MS','100MS','200MS','500MS',
+          '1S','2S','5S','10S','20S','50S','100S']
+    voltageOffset:
+      name: voltageOffset
+      type: dropDown
+      isDisabled: false
+      defaultValue: 0
+      options:
+        differentLabels: false
+        selections: 
+          - 0
+
+dtacq:
+  maxChannels: 18
+  samplingRate: 
+    name: samplingRate
+    type: slider
+    isDisabled: false
+    defaultValue: 1000
+    options:
+      min: 1000
+      max: 1000000
+      step: 1000
+  triggerDelay:
+    name: triggerDelay
+    type: dropDown
+    isDisabled: false
+    defaultValue: 0
+    options:
+      differentLabels: false
+      selections:
+        - 0
+  memSize:
+    name: memSize
+    type: slider
+    isDisabled: false
+    defaultValue: 10000
+    options:
+      min: 0
+      max: 1000000
+      step: 1
+  tdiv:
+    name: tdiv
+    type: dropDown
+    isDisabled: true
+    defaultValue: ''
+    options:
+      differentLabels: false
+      selections: ['']
+  timeOffset:
+    name: timeOffset
+    type: slider
+    isDisabled: true
+    defaultValue: 0
+    options: 
+      min: 0
+      max: 20e-3
+      step: 0.001
+  name:
+    name: Name
+    type: text
+    isDisabled: false
+    defaultvalue: 'Name'
+  triggerLevel: 
+    name: triggerLevel
+    type: dropDown
+    defaultValue: ''
+    isDisabled: true
+    options:
+      differentLabels: false
+      selections: ['']
+  triggerType:
+    name: triggerType
+    isDisabled: false
+    defaultValue: External
+    type: dropDown
+    options:
+      differentLabels: false
+      selections:
+        - AUX
+        - EX5
+        - External
+        - external
+  triggerReference:
+    name: triggerReference
+    isDisabled: true
+    defaultValue: ''
+    type: dropDown
+    options:
+      differentLabels: false
+      selections:
+        - ''
+  channelProperties:
+    timeOffset:
+      name: tOffset
+      type: dropDown
+      isDisabled: false
+      defaultValue: 0
+      options: 
+        differentLabels: false
+        selections:
+          - 0
+    vdiv:
+      name: vdiv
+      type: dropDown
+      isDisabled: false
+      defaultValue: 1
+      options:
+        differentLabels: false
+        selections:
+          - 1    
+    name:
+      name: Name
+      type: text
+      isDisabled: false
+      defaultValue: 'Name'
+    coupling:
+      name: Coupling
+      type: dropDown
+      isDisabled: false
+      defaultValue: DC
+      options:
+        differentLabels: false
+        selections:
+          - DC
+          - A50
+          - A1M
+          - D50
+    bwLimit:
+      name: bwLimit
+      type: boolean
+      isDisabled: false
+      defaultValue: OFF
+    probe:
+      name: probe
+      type: slider
+      isDisabled: false
+      defaultValue: 10.0
+      options:
+        min: 0
+        max: 100
+        step: 1
+    tdiv: 
+      name: tdiv
+      type: dropDown
+      isDisabled: false
+      defaultValue: 1
+      options:
+        differentLabels: false
+        selections: 
+          - 1
+    voltageOffset:
+      name: vOffset
+      type: dropDown
+      isDisabled: false
+      defaultValue: 0
+      options:
+        differentLabels: false
+        selections: 
+          - 0

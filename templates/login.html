@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  </head>
+   <body>
+   
+      <h3>Login</h3>
+      <hr/>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+      {% endwith %}
+      <div class="columns">
+         <div class="column is-offset-4 is-4">
+            <div class="box">
+               <form action = "{{ request.path }}" method = "post">
+                  <div class="field">
+                     <label class="label" for = "name">Name</label>
+                     <input class="input" type = "text" name = "name" placeholder = "Name" />
+                  </div>
+                  <div class="field">
+                     <label class="label" for = "password">Password</label>
+                     <input class="input" type = "text" name = "password" placeholder = "Password" />
+                  </div>
+                  <input class="button is-primary is-fullwidth" type = "submit" value = "Login" />
+              <a class="button is-primary is-fullwidth mt-1" href="/register">Register</a>
+
+               </form>
+            </div>
+         </div>
+      </div>
+
+
+      
+   </body>
+</html>
