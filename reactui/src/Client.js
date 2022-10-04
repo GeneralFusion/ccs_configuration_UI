@@ -25,6 +25,7 @@ const xl = {
 function Client(props) {
     let valueChangerGlobalList = []
     let connectedDevicesList = []
+    let databasesList = []
     let servicesList = []
     const sendChange = (changes) => {
         console.log(changes)
@@ -46,12 +47,15 @@ function Client(props) {
             </Grid>
         )
 
-        switch(property){
+        switch(property){//replace this with DB check
             case('connectedDevices'):
                 connectedDevicesList.push(component)
                 break;
             case('services'):
                 servicesList.push(component)
+                break;
+            case('databases'):
+                databasesList.push(component)
                 break;
             default:
                 valueChangerGlobalList.push(component)
@@ -70,6 +74,8 @@ function Client(props) {
 
             <Paper elevation={1}>{connectedDevicesList}</Paper>
             <Paper elevation={1}>{servicesList}</Paper>
+            <Paper elevation={1}>{databasesList}</Paper>
+
 
         </div>
     )

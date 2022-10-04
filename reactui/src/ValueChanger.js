@@ -3,6 +3,7 @@ import React, {useEffect} from 'react'
 import { Box, Paper } from '@mui/material/'
 import BooleanChanger from './BooleanChanger.js'
 import DropdownChanger from './DropdownChanger.js'
+import ListChanger from './ListChanger.js'
 import Section from './Section.js'
 import CollapsibleChanger from './CollapsibleChanger.js'
 import TextChanger from './TextChanger.js'
@@ -127,6 +128,19 @@ function createValueChanger(props) {
                     propertiesDB={props.propertiesDB}
                 ></TextChanger>
             )
+            break
+        case 'list':
+            valueChangerComponent = (
+                <ListChanger
+                    isDisabled={props.isDisabled}
+                    value={props.value}
+                    onValueChange={sendChange}
+                    keyHistory={newKeyHistory}
+                    property={props.property}
+                    propertiesDB={props.propertiesDB}
+                ></ListChanger>
+            )
+            isLarge = true
             break
         case 'scope':
             isLarge = true

@@ -19,9 +19,9 @@ TODO
 
 -Merge those properties with main file
 
--Push to Github
+-Push to Github - DONE
 
--Use a URL router
+-Use a URL route
 '''
 
 reactFolder = 'reactui'
@@ -37,7 +37,7 @@ app.config['GITHUB_CLIENT_ID'] = '161c62318fa3b687d4df'
 app.config['GITHUB_CLIENT_SECRET'] = '770009e9f42be603520c91d3b5b9b1e9c910a375'
 
 github = GitHub(app)
-
+AUTHSCOPE = "repo"
 loginManager = LoginManager()
 loginManager.login_view = 'login'
 loginManager.init_app(app)
@@ -122,7 +122,7 @@ def login():
         return redirect('/home')
     if not current_user.is_authenticated:
         print("Not logged in:")
-        return github.authorize()
+        return github.authorize(AUTHSCOPE)
         #return render_template('login.html')
 
     print("Logged in:")
@@ -153,6 +153,7 @@ def authorized(oauth_token):
         db.session.add(user)
     db.session.commit()
     #Login the user (either gotten from database using 'query' or created)
+    print(github.get('/user/repos'))
     login_user(user)
     return redirect('/home')
 

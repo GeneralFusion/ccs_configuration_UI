@@ -402,3 +402,78 @@ configVarPath:
   id: 43
   type: text
   name: Config Var Path
+activeCapCams:
+  id: 44
+  type: list
+  hasKeys: false
+  name: Cams
+vars:
+  id: 45
+  type: section
+  name: Vars
+shotDrive:
+  id: 46
+  type: text
+  name: Shot Drive
+shotlogFile:
+  id: 47
+  type: text
+  name: Shot log file
+rowcolConfig:
+  id: 48
+  name: Rows & Columns
+  type: section
+rows:
+  id: 49
+  name: Rows
+  type: list
+  hasKeys: false
+cols:
+  id: 50
+  name: Columns
+  type: list
+  hasKeys: false
+capCamConfigPath:
+  id: 51
+  name: CapCap ConfigPaths
+  type: list
+  hasKeys: true
+Thomson:
+  id: 52
+  name: Thomson
+  type: section
+numberOfRefShots:
+  id: 53
+  type: slider
+  name: Ref shots
+  options:
+      min: 0
+      max: 5
+      step: 1  
+responseTime:
+  id: 54
+  type: slider
+  options:
+    min: 0
+    max: 5
+    step: 1
+areWeTakingRefshots:
+  id: 55
+  type: boolean
+  name: Taking ref shots?
+minBrightness:
+  id: 55
+  type: slider
+  name: Min Brightness
+  options:
+    min: 0
+    max: 100
+    step: 1
+active cams:
+  id: 56
+  name: Active Cams
+  type: list
+lastshotFile:
+  type: text
+  id: 57
+  name: Last shot file

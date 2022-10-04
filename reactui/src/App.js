@@ -14,6 +14,42 @@ export default function App() {
 
     const theme =
         createTheme({
+          components:{
+            MuiCssBaseline: {
+              styleOverrides: 
+               `
+               /* ===== Scrollbar CSS ===== */
+               /* Firefox */
+               * {
+                 scrollbar-width: auto;
+                 scrollbar-color: #f21fa1 #2e2e2e;
+               }
+             
+               /* Chrome, Edge, and Safari */
+               *::-webkit-scrollbar {
+                 width: 8px;
+                 height: 10px;
+               }
+             
+               *::-webkit-scrollbar-track {
+                 background: #2e2e2e;
+                 border-radius: 13px;
+                 border: none
+               }
+             
+               *::-webkit-scrollbar-thumb {
+                 background-color: #f21fa1;
+                 border-radius: 13px;
+                 border: none;
+               }
+    
+              
+  
+
+               `
+              
+            }
+          },
           palette: {
             mode,
             primary: {

@@ -1026,12 +1026,61 @@ clients:
       tagHistory: tag_history
     name: PI3_TCP_LV_Client
     savePath: /nfs/expdata/PI3
-    slackChannels:
-      Activity: PI3_ACTIVITY
-      Alarms: alarms Channel
-      Events: PI3_EVENTS
     services:
       BrightDetect:
         active: true
         configVarPath: "/nfs/expdata/PI3/Configuration/brightdetect_vars.yml"
-    
+        capCamConfigPath:
+          capCam1: "/nfs/expdata/PI3/Configuration/CapCam1.yml"
+          capCam3: "/nfs/expdata/PI3/Configuration/CapCam3.yml"
+          capCam4: "/nfs/expdata/PI3/Configuration/CapCam4.yml"
+          capCam5: "/nfs/expdata/PI3/Configuration/CapCam5.yml"
+        active cams:
+        - capCam1
+        - capCam3
+        - capCam5
+        vars:
+          shotDrive: "/nfs/expdata/PI3"
+          shotlogFile: ShotLog.txt
+          rowcolConfig:
+            rows:
+            - row12
+            - row11
+            - row10
+            - row09
+            - row08
+            - row07
+            - row06
+            - row05
+            - row04
+            - row03
+            - row02
+            - row01
+            cols:
+            - col01
+            - col02
+            - col03
+            - col04
+            - col05
+            - col06
+            - col07
+            - col08
+            - col09
+            - col10
+            - col11
+            - col12
+          activeCapCams:
+          - CapCam1
+          - CapCam3
+          - CapCam4
+          - CapCam5
+          minBrightness: 15
+          lastshotFile: LastShot.txt
+      Thomson:
+        numberOfRefShots: 1
+        responseTime: 2
+        areWeTakingRefshots: true
+    slackChannels:
+      Activity: PI3_ACTIVITY
+      Alarms: alarms Channel
+      Events: PI3_EVENTS

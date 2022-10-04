@@ -253,6 +253,7 @@ function ScopeChanger(props) {
                         gridTemplateColumns: 'repeat(auto-fill,minmax(25%,1fr)) !important',
                         gridAutoColumns: 'minmax(25%, 1fr)',
                         overflowY: 'hidden',
+          
                     }}
                 >
                     {channels}
