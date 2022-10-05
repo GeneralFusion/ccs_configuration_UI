@@ -244,23 +244,8 @@ type:
   options:
     differentLabels: false
     selections:
-      - visa_agilent
-      - visa_lecroy
-      - dtacq
-vdiv:
-  name: Voltage Division
-  id: 23
-  type: dropDown
-  size: small
-  options: 
-    differentLabels: false
-    selections:
-      - 1v
-      - 2v
-      - 5v
-      - 10v 
-      - 10mv
-      - 1
+      - labView
+      - labViews
 coupling:
   name: Coupling
   id: 24
@@ -453,6 +438,7 @@ numberOfRefShots:
 responseTime:
   id: 54
   type: slider
+  name: Response Time
   options:
     min: 0
     max: 5

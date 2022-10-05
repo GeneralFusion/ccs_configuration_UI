@@ -14,7 +14,7 @@ import { Component } from 'react'
 function ValueChanger(props) {
     //Add steps and min and max ranges.
     const [valueChanger, isLarge] = createValueChanger(props)
-    const fontSize = 13//Math.min(160 / props.propertiesDB[props.property].name.length, 13) 
+    const fontSize =Math.min(190 / props.propertiesDB[props.property].name.length, 13) 
     if(isLarge){
         return (
             <Paper elevation={4}>

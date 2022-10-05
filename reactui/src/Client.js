@@ -57,6 +57,9 @@ function Client(props) {
             case('databases'):
                 databasesList.push(component)
                 break;
+            case('slackChannels'):
+                servicesList.push(component)
+                break;
             default:
                 valueChangerGlobalList.push(component)
                 break;

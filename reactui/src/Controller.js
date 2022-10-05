@@ -48,6 +48,7 @@ function Controller(props) {
     }
 
     const getData = async () => {
+        console.log(document.cookie)
         try {
             const req = await fetch(`/getData/`, { method: 'GET' })
             const json = await req.json()

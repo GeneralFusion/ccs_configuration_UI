@@ -161,7 +161,7 @@ function ScopeChanger(props) {
                     property={'type'}
                     value={properties['type']}
                     keyHistory={newKeyHistory}
-                    propertiesDB={props.propertiesDB}
+                    propertiesDB={typeDB}
                     onValueChange={changeScopeType}
                 ></ValueChanger>
             </Grid>

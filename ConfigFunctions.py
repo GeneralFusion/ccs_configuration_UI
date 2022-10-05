@@ -1,9 +1,12 @@
+from calendar import c
 from yaml import safe_load, dump
 
-def getClients(file):
+def getClients(file, clientNumber):
     clients = {}
+
     try:#Retrieve clients
         clients = file['clients']
+        clients = {clientKey:client for clientKey,client in clients.items() if clientKey == clientNumber} #Only return the client that was requested
     except KeyError:
         print("Error. Client number does not exist")
     print(clients)

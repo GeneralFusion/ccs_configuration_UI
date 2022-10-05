@@ -1,0 +1,36 @@
+
+{%extends 'base.html'%}
+
+{%block head%}
+
+{%endblock%}
+
+{% block content%}
+
+
+
+<body>
+
+<div class="columns">.
+  <div class="column is-10 is-offset-1">
+    <div class="box">
+        <h1 class="is-1">hello {{data}}</h1>
+        <div>
+            <canvas id="myChart"></canvas>
+          </div> 
+           <Button class="button" onclick="getData()">Get Graph</Button>
+           <Button class="button" onclick="addPoint()">Add Point</Button>
+
+    </div>
+  </div>
+
+
+</div>
+
+
+  
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{{url_for('static', filename='Graph.js')}}"></script>
+{% endblock %}

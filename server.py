@@ -3,7 +3,7 @@ from urllib import request
 from flask import Flask, send_from_directory, request, session, render_template, redirect, flash
 from flask_login import UserMixin, LoginManager, current_user, login_user, login_required, logout_user
 import os
-
+from random import randint
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import scoped_session, sessionmaker
 
@@ -13,7 +13,7 @@ import ConfigFunctions
 
 '''
 TODO 
--Send client that user selected
+-Send client that user selected - DONE
 
 -Only send properties that user has perimssion for
 
@@ -43,11 +43,12 @@ loginManager.login_view = 'login'
 loginManager.init_app(app)
 
 @loginManager.user_loader
-def load_user(userID):
-    return User.query.get(int(userID))
+def load_user(id):
+    return User.query.get(int(id))
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    
     name = db.Column(db.String(100))
     githubName = db.Column(db.String(100))
     isDarkMode = db.Column(db.Boolean())
@@ -57,8 +58,12 @@ class User(UserMixin, db.Model):
 @app.route('/getData/', methods=['GET','POST'])
 def getData():
     if request.method == 'GET':
+        try: #attempt to get client number from session. If no client number then use '1'
+            currentClientNumber = session['clientNumber']
+        except KeyError:
+            currentClientNumber = '1'
         parsedYAML = ConfigFunctions.parseYAML('testConfig')
-        clients = ConfigFunctions.getClients(parsedYAML) 
+        clients = ConfigFunctions.getClients(parsedYAML, currentClientNumber)
         propertiesDB = ConfigFunctions.parseYAML('propertiesDB')
         scopesDB = ConfigFunctions.parseYAML('scopesDB')
 
@@ -69,20 +74,28 @@ def getData():
     if request.method == 'POST':
         print("Updated client:")
         print(request.json)
-        ConfigFunctions.saveClientsToFile('testConfig',request.json);
+        ConfigFunctions.saveClientsToFile('testConfig',request.json)
         #IF EVERYTHING GOOD
         return {'Sucess':"Data posted"}, 200
 
-@app.route('/static/<folder>/<file>')#This function is neccesary
+@app.route('/static/<folder>/<file>')#This function is neccesary to serve react 
 def css(folder,file):
     ''' User will call with with thier id to store the symbol as registered'''
     
     path = folder+'/'+file
     return send_from_directory(directory=directory,path=path)
 
+@app.route('/currentClient/<clientNumber>')
+@login_required
+def currentClient(clientNumber):
+    session['clientNumber'] = clientNumber
+    return redirect('/app')
+
+
+
 @app.route('/app')
 @login_required
-def get_app():
+def getApp():
     path = os.getcwd() + f'/{reactFolder}/build'
     return send_from_directory(directory=path, path='index.html')
 
@@ -104,7 +117,7 @@ def register():
     return render_template('register.html')
 
 
-@app.route('/')
+@app.route('/')#redirect to login 
 def index():
     return redirect('/login')
 
@@ -157,10 +170,7 @@ def authorized(oauth_token):
     login_user(user)
     return redirect('/home')
 
-@app.route('/token')
-def tokenGet():#Helper function. Every REST request to Git is authorized by getting token through this function
-    #Need error ahdnling
-    return session['token']
+
 
 
 
@@ -180,25 +190,27 @@ def profile():
     return render_template('profile.html', name=current_user.name, isDarkMode=current_user.isDarkMode)
 
 
-
-
-
-
-
-
-
 @app.route('/profileInfo', methods=['GET', 'POST'])
 @login_required
 def profileInfo():
     return {'isDarkMode' : current_user.isDarkMode}
 
+@app.route('/graph')
+@login_required
+def graph():
+    return render_template('graph.html')
+
+@app.route('/getGraphData')
+@login_required
+def getGraphData():
+    pointsAmount = 1000
+    maxY = 1000
+    return [[randint(0, maxY) for i in range(pointsAmount)],[i for i in range(pointsAmount)]]
+
 @app.route('/home')
 @login_required
-def get_home():
+def home():
     return render_template('home.html', name=current_user.name)
-
-
-
 
 if __name__ == '__main__':
     db.create_all()

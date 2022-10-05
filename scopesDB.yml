@@ -80,7 +80,18 @@ visa_agilent:
     options:
       differentLabels: false
       selections:
-        - Digitizer Timing 
+        - Digitizer Timing
+  type:
+    name: Type
+    id: 22
+    size: normal
+    type: dropDown
+    options:
+      differentLabels: false
+      selections:
+        - visa_agilent
+        - visa_lecroy
+        - dtacq 
   channelProperties:
       vdiv:
         name: vdiv
@@ -239,6 +250,17 @@ visa_lecroy:
       differentLabels: false
       selections:
         - Digitizer Timing 
+  type:
+    name: Type
+    id: 22
+    size: normal
+    type: dropDown
+    options:
+      differentLabels: false
+      selections:
+        - visa_agilent
+        - visa_lecroy
+        - dtacq
   channelProperties:
     timeOffset:
       name: timeOffset
@@ -400,6 +422,17 @@ dtacq:
       differentLabels: false
       selections:
         - ''
+  type:
+    name: Type
+    id: 22
+    size: normal
+    type: dropDown
+    options:
+      differentLabels: false
+      selections:
+        - visa_agilent
+        - visa_lecroy
+        - dtacq
   channelProperties:
     timeOffset:
       name: tOffset
