@@ -13,6 +13,6 @@ def updateRepo():
         subprocess.check_call(COMMITCMD)
     except:
         print("No files different")
+    
     subprocess.check_call(PUSHCMD)
-
 

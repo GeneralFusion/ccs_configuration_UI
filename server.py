@@ -1,6 +1,6 @@
 from urllib import request
 
-from flask import Flask, send_from_directory, request, session, render_template, redirect, flash
+from flask import Flask, make_response,abort, send_from_directory, request, session, render_template, redirect, flash
 from flask_login import UserMixin, LoginManager, current_user, login_user, login_required, logout_user
 import os
 
@@ -36,7 +36,7 @@ app.config['GITHUB_CLIENT_ID'] = '161c62318fa3b687d4df'
 app.config['GITHUB_CLIENT_SECRET'] = '770009e9f42be603520c91d3b5b9b1e9c910a375'
 
 github = GitHub(app)
-AUTHSCOPE = "repo"
+AUTHSCOPE = "read:org read:user"
 loginManager = LoginManager()
 loginManager.login_view = 'login'
 loginManager.init_app(app)
@@ -72,14 +72,15 @@ def getData():
             return {'Error':'Client not found'}, 512
         return {'clients':clients,'propertiesDB':propertiesDB, 'scopesDB':scopesDB}, 200
     if request.method == 'POST':
-        print("Updated client:")
-        print(request.json)
-        ConfigFunctions.saveClientsToFile('testConfig',request.json)
-        #IF EVERYTHING GOOD
-        GitFunctions.updateCommitAuthor(name=current_user.name, email=current_user.email)
-        GitFunctions.updateRepo()
-        return {'Sucess':"Data posted"}, 200
-
+        (request.json)#???????????????????????????????????
+        if current_user.permissionLevel > 0:
+            print("Updated client:")
+            ConfigFunctions.saveClientsToFile('testConfig',request.json)
+            #IF EVERYTHING GOOD
+            if saveRepo():
+                return 'Sucess', 201
+            return 'No GitHub access', 513
+        return 'Not Authorized', 514
 @app.route('/static/<folder>/<file>')#This function is neccesary to serve react 
 def css(folder,file):
     ''' User will call with with thier id to store the symbol as registered'''
@@ -167,17 +168,29 @@ def authorized(oauth_token):
     session['token'] = oauth_token#Store the token in the browser session
     gUser = github.get('/user') #Call github user for current user's details
     user = User.query.filter_by(id=gUser['id']).first()#see if user exists in our database. Search using ID. Which will always be unique
+    noEmail = True
     if user is None:#If user does not exist, create it.
-        print("Creating User")
-        print(gUser)
-        if(gUser['email'] is None):
-            print("USER MUST PROVIDE EMAIL")
-        user = User(id=gUser['id'], name = gUser['name'] if gUser['name'] != None else gUser['login'], githubName=gUser['login'], email=gUser['email'], permissionLevel=1,isDarkMode=True) #Set name property of user to Github name, or the login if name is not set
-        db.session.add(user)
+        print("Checking if user belongs to GF")
+        orgs = github.get('/user/orgs')
+        foundGF = False
+        for org in orgs:
+            print(org['id'])
+            if org['id'] == 115666129:
+                foundGF = True
+                break
+        if foundGF:
+            if(gUser['email'] is None):
+                print("USER MUST PROVIDE EMAIL")
+            user = User(id=gUser['id'], name = gUser['name'] if gUser['name'] != None else gUser['login'], githubName=gUser['login'], email=gUser['email'], permissionLevel=1,isDarkMode=True) #Set name property of user to Github name, or the login if name is not set
+            db.session.add(user)
+        else:
+            return 'YOU ARE NOT ALLOWED HERE'
     db.session.commit()
     #Login the user (either gotten from database using 'query' or created)
 
     login_user(user)
+    if(not user.email):
+        return redirect('/profile')
     return redirect('/home')
 
 
@@ -211,16 +224,16 @@ def profileInfo():
 def graph():
     return render_template('graph.html')
 
-@app.route('/saveRepo')
-@login_required
 def saveRepo():
-    if current_user.email is None:
-        return 'Email not provided. Go to profile'
-    if current_user.permissionLevel > 1:
+  
+    try:
         GitFunctions.updateCommitAuthor(name=current_user.name, email=current_user.email)
         GitFunctions.updateRepo()
-        return 'Sucess'
-    return 'Read only access'   
+        return True
+    except:
+        print("Error pushing.")
+
+    return False   
 
 @app.route('/getGraphData')
 @login_required
@@ -232,23 +245,37 @@ def getGraphData():
     print(request.args.get('max'))
     startIndex = int(request.args.get('min'))
     endIndex = int(request.args.get('max'))
-    return DataFunctions.getSampleData(startIndex=startIndex, endIndex=endIndex, amountOfPoints=8000)
-
+    return DataFunctions.getSampleData(startIndex=startIndex, endIndex=endIndex, amountOfPoints=100)
+@app.route('/removeUser')
+@login_required
+def removeUser():
+    userID = request.args.get('id')
+    if current_user.id == int(userID):
+        return "You can't remove yourself"
+    print("REMOVING USER " + userID)
+    User.query.filter_by(id=userID).delete()
+    db.session.commit()
+    return redirect('/adminPage')
 @app.route('/adminPage', methods=['GET', 'POST'])
 @login_required
 def adminPage():
-    if request.method == 'POST' and current_user.permissionLevel == 1:
+    if not isAdmin(current_user) and current_user.githubName != 'uvkhosa':
+        return 'no.'
+    if request.method == 'POST':
         for i in request.form:
             print(i)
             print(request.form.get(i))
             User.query.get(i).permissionLevel = request.form.get(i)
             db.session.commit()
+            return redirect('/adminPage')
 
         return redirect('/adminPage')
-    elif current_user.permissionLevel == 1:
-        users = User.query.all() if current_user.permissionLevel == 1 else None
+    if request.method == 'GET':
+        users = User.query.all() 
         return render_template('adminPage.html', users=users)
     return 'no.'
+def isAdmin(user):
+    return user.permissionLevel > 1
 @app.route('/home')
 @login_required
 def home():

@@ -52,8 +52,8 @@ function ScopeChanger(props) {
 
     const getDefaultChannel = () => {
         let returnChannel = {}
-        for (const [property, value] of Object.entries(typeDB['channelProperties'])) {
-            returnChannel[property] = value['defaultValue']
+        for (const [,value] of Object.entries(typeDB['channelProperties'])) {
+            returnChannel[value['name']] = value['defaultValue']
         }
         console.log(returnChannel)
         return returnChannel
@@ -82,11 +82,12 @@ function ScopeChanger(props) {
 
     for (let channelIndex = 1; channelIndex <= (currentType === 'dtacq' ? scopeProperties.current['activeChannels'][scopeProperties.current['activeChannels'].length - 1] : typeDB['maxChannels']); channelIndex++) {
         let isActive = scopeProperties.current['activeChannels'].includes(channelIndex)
+        let channelValue = isActive ? scopeProperties.current['channelsConfigSettings'][channelIndex] : getDefaultChannel()
         channels.push(
             <ImageListItem key={++childKey}>
                 <ChannelChanger
-                    value={isActive ? scopeProperties.current['channelsConfigSettings'][channelIndex] : false}
-                    setDefaults={setDefaults.current}
+                    value={channelValue}
+                    setDefaults={false}
                     channelNumber={channelIndex}
                     isActive={isActive}
                     keyHistory={[...newKeyHistory, 'channelsConfigSettings', channelIndex]}

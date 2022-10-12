@@ -2,16 +2,19 @@ import Button from '@mui/material/Button'
 import LoadingButton from '@mui/lab/LoadingButton';
 import Client from './Client.js'
 import React, { useState } from 'react'
+import { useTheme } from '@mui/material/styles'
 
 import { loadYAML } from './YAML.js'
 let mainConfig
 //Value:Label Mappings,
 //collapsbible, make scopes to names instead of numbers, change to array for order,
 function Controller(props) {
+    const theme = useTheme()
     const [clients, setClients] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
+    const [saveButton, setSaveButton] = useState({text: 'Save Changes', color: 'primary'})
     const yamlFile = loadYAML('test.yml')
-
+    //MAKE SURE NO DOBULE CLIKING
     const homeButton = (<Button href={'/home'}>Home</Button>)
     console.log('Controller rerender')
     useState(async () => {
@@ -52,7 +55,7 @@ function Controller(props) {
     }
 
     async function getData() {
-        console.log(document.cookie)
+      
         try {
             const req = await fetch(`/getData/`, { method: 'GET' })
             const json = await req.json()
@@ -73,15 +76,25 @@ function Controller(props) {
 
     const saveChanges = async () => {
         console.log('Saving: ')
-        try {
-            await fetch(`/getData/`, {
+        setSaveButton({text:'Saving Changes...', color: 'secondary'})
+        
+            const resp = await fetch(`/getData/`, {//Send new config to server
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(mainConfig),
             })
-        } catch (err) {
-            console.log(err)
-        }
+            console.log(resp)
+            if(resp.ok){//IF sucessfully pushed to github
+                setSaveButton({text: 'Changes Saved!', color: 'sucess'})
+                setTimeout(()=>{
+                    setSaveButton({text: 'Save Changes', color: 'primary'})
+                }, 5000)
+            }
+            else{
+                console.log(resp)
+                setSaveButton({text: resp.status === 513 ? 'No Repo Access' : 'Not Authorized', color:'error'})
+            }
+        
     }
 
     if (clients.length > 0) {
@@ -92,8 +105,8 @@ function Controller(props) {
                 {clients}
                 {/* <Client properties={properties} onValueChange={changeValue}></Client> */}
                 {/* <ValueChanger onValueChange={sendChange} name="temperature" value={10}></ValueChanger> */}
-                <Button variant="contained" color="primary" onClick={() => saveChanges()} sx={{marginTop: 1, width: 1}}>
-                    Save Changes
+                <Button variant="contained" color={saveButton.color} onClick={() => saveChanges()} sx={{marginTop: 1, width: 1}}>
+                    {saveButton.text}
                 </Button>
             </div>
         )

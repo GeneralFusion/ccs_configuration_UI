@@ -22,9 +22,9 @@ class Graph{
                 datasets: [
                     {
                         data: [],
-                        backgroundColor: 'rgba(255, 0, 100, 0)',
+                        backgroundColor: 'rgba(255, 0, 100, 1)',
                         borderColor: 'rgba(200, 0, 150, 1)',
-                        radius: 0
+                        radius: 1
                     }
                 ]
             },
@@ -68,7 +68,7 @@ class Graph{
                     text: title
                   },
                   decimation:{
-                    enabled: true,
+                    enabled: false,
                     algorithm: 'min-max',
                    
                 }

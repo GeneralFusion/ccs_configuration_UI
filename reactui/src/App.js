@@ -59,11 +59,18 @@ export default function App() {
             secondary: {
               main: '#c9bfbb'
             },
+            error: {
+              main: '#FF0000'
+            },
+            sucess: {
+              main: '00FF00'
+            }
           },
           status:{
             enable: '#00c925',
             disable: '#c90000',
             warning: '#d17000',
+ 
           },
           typography:{
             fontSize: 12,

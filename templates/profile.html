@@ -14,7 +14,13 @@
           </div>
           <div class="field">
             <label class="label" for="email">Email (same as GitHub): </label>
+            {%if email == '' %}
+              <input class="input is-danger" type="text" placeholder="Enter same email used on GitHub with GF Org" name="email" value="{{email}}" />
+              <p class="help is-danger">No Email Found</p>
+
+                {%else%}
             <input class="input" type="text" name="email" value="{{email}}" />
+            {%endif%}
           </div>
           <input class="button" type="submit" />
         </form>
