@@ -46,7 +46,7 @@ function ChannelChanger(props) {
                 <ValueChanger
                     property={'coupling'}
                     isDisabled={isDisabled}
-                    value={props.setDefaults || !properties ? typeDB['coupling']['defaultValue'] : properties['coupling']}
+                    value={!properties ? typeDB['coupling']['defaultValue'] : properties['coupling']}
                     keyHistory={props.keyHistory}
                     propertiesDB={props.propertiesDB}
                     onValueChange={sendChange}
@@ -56,7 +56,7 @@ function ChannelChanger(props) {
                 <ValueChanger
                     property={'bwLimit'}
                     isDisabled={isDisabled}
-                    value={props.setDefaults || !properties ? typeDB['bwLimit']['defaultValue'] : properties['bwLimit']}
+                    value={!properties ? typeDB['bwLimit']['defaultValue'] : properties[typeDB['bwLimit']['name']]}
                     keyHistory={props.keyHistory}
                     propertiesDB={props.propertiesDB}
                     onValueChange={sendChange}
@@ -66,7 +66,7 @@ function ChannelChanger(props) {
                 <ValueChanger
                     property={'probe'}
                     isDisabled={isDisabled}
-                    value={props.setDefaults || !properties ? typeDB['probe']['defaultValue'] : properties['probe']}
+                    value={!properties ? typeDB['probe']['defaultValue']: properties[typeDB['probe']['name']]}
                     keyHistory={props.keyHistory}
                     propertiesDB={typeDB}
                     onValueChange={sendChange}
@@ -76,7 +76,7 @@ function ChannelChanger(props) {
                 <ValueChanger
                     property={'tdiv'}
                     isDisabled={isDisabled}
-                    value={props.setDefaults || !properties ? typeDB['tdiv']['defaultValue'] : properties['tdiv']}
+                    value={!properties ? typeDB['tdiv']['defaultValue']: properties[typeDB['tdiv']['name']]}
                     keyHistory={props.keyHistory}
                     propertiesDB={typeDB}
                     onValueChange={sendChange}
@@ -86,7 +86,7 @@ function ChannelChanger(props) {
                 <ValueChanger
                     property={'timeOffset'}
                     isDisabled={isDisabled}
-                    value={props.setDefaults || !properties ? typeDB['timeOffset']['defaultValue'] : properties[typeDB['timeOffset']['name']]}
+                    value={!properties ? typeDB['timeOffset']['defaultValue']: properties[typeDB['timeOffset']['name']]}
                     keyHistory={props.keyHistory}
                     propertiesDB={typeDB}
                     onValueChange={sendChange}

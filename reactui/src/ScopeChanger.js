@@ -17,7 +17,7 @@ function ScopeChanger(props) {
     const [currentType, setCurrentType] = useState(properties['type'])
     const [addingChannel, setAddingChannel] = useState(false)
     const scopeProperties = useRef({ ...props.value })
-    const setDefaults = useRef(true)
+    const setDefaults = useRef(false)
 
     let channels = []
 
@@ -69,8 +69,6 @@ function ScopeChanger(props) {
         }
         console.log(scopeProperties.current)
 
-        //saveChange([[...props.keyHistory, scopeIndex, 'activeChannels'], activeChannels]);
-        //saveChange([[...props.keyHistory, scopeIndex, 'channelsConfigSettings'], channelProperties]);
     }
     const addChannel = () => {
         const newChannelNumber = scopeProperties.current['activeChannels'][scopeProperties.current['activeChannels'].length - 1] + 1

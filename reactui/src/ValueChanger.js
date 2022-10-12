@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 import SliderChanger from './SliderChanger.js'
 import React, {useEffect} from 'react'
 import { Box, Paper } from '@mui/material/'

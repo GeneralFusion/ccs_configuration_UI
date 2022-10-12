@@ -13,7 +13,7 @@ function Section(props) {
         props.onValueChange(newValue)
     }
     for (const [property, value] of Object.entries(props.value)) {
-        if(props.propertiesDB[property]['type'] == 'list'){
+        if(props.propertiesDB[property]['type'] === 'list'){
             listChangerList.push(
                 <Grid key={property} md={6}>
                 <ValueChanger
