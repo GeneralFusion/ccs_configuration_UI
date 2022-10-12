@@ -14,6 +14,9 @@ function Controller(props) {
 
     const homeButton = (<Button href={'/home'}>Home</Button>)
     console.log('Controller rerender')
+    useState(async () => {
+        await initController()
+    },[])
 
     const changeValue = ([clientNumber, [keyHistory, newValue]]) => {
         //Array destructuring. Will take the array of property and value and make it into two variables.
@@ -37,6 +40,7 @@ function Controller(props) {
                     sx={{}}
                     key={clientNumber}
                     clientNumber={clientNumber}
+                    clientName={clientData.name}
                     properties={clientData}
                     propertiesDB={propertiesDB}
                     scopesDB={scopesDB}
@@ -47,7 +51,7 @@ function Controller(props) {
         return tempArray
     }
 
-    const getData = async () => {
+    async function getData() {
         console.log(document.cookie)
         try {
             const req = await fetch(`/getData/`, { method: 'GET' })
@@ -57,7 +61,7 @@ function Controller(props) {
             console.log('Error fetching data')
         }
     }
-    const initController = async () => {
+    async function initController() {
         const data = await getData()
         const propertiesDB = data['propertiesDB']
         const scopesDB = data['scopesDB']
@@ -94,22 +98,7 @@ function Controller(props) {
             </div>
         )
     } else {
-        return (
-            <div style={{marginTop: '50px'}}>
-                {homeButton}
-                  <LoadingButton
-          onClick={() => {
-            setIsLoading(true)
-            initController()
-          }}
-          loading={isLoading}
-          loadingIndicator="Loading…"
-          variant="contained"
-        >
-          Fetch data
-        </LoadingButton>
-            </div>
-        )
+   
     }
 }
 

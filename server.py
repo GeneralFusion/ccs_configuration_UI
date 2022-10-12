@@ -3,13 +3,12 @@ from urllib import request
 from flask import Flask, send_from_directory, request, session, render_template, redirect, flash
 from flask_login import UserMixin, LoginManager, current_user, login_user, login_required, logout_user
 import os
-from random import randint
+
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import scoped_session, sessionmaker
+
 
 from flask_github import GitHub
-
-import ConfigFunctions
+import ConfigFunctions, DataFunctions, GitFunctions
 
 '''
 TODO 
@@ -48,9 +47,10 @@ def load_user(id):
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    
+    permissionLevel = db.Column(db.Integer())
     name = db.Column(db.String(100))
     githubName = db.Column(db.String(100))
+    email = db.Column(db.String(100))
     isDarkMode = db.Column(db.Boolean())
 
 
@@ -76,6 +76,8 @@ def getData():
         print(request.json)
         ConfigFunctions.saveClientsToFile('testConfig',request.json)
         #IF EVERYTHING GOOD
+        GitFunctions.updateCommitAuthor(name=current_user.name, email=current_user.email)
+        GitFunctions.updateRepo()
         return {'Sucess':"Data posted"}, 200
 
 @app.route('/static/<folder>/<file>')#This function is neccesary to serve react 
@@ -152,6 +154,11 @@ def logout():
 def token_getter():
     return session['token']
 
+@app.route('/t')
+@login_required
+def getT():
+    return session['token']
+
 @app.route('/github-callback')
 @github.authorized_handler
 def authorized(oauth_token):
@@ -162,11 +169,14 @@ def authorized(oauth_token):
     user = User.query.filter_by(id=gUser['id']).first()#see if user exists in our database. Search using ID. Which will always be unique
     if user is None:#If user does not exist, create it.
         print("Creating User")
-        user = User(id=gUser['id'], name = gUser['name'] if gUser['name'] != None else gUser['login'], githubName=gUser['login'], isDarkMode=True) #Set name property of user to Github name, or the login if name is not set
+        print(gUser)
+        if(gUser['email'] is None):
+            print("USER MUST PROVIDE EMAIL")
+        user = User(id=gUser['id'], name = gUser['name'] if gUser['name'] != None else gUser['login'], githubName=gUser['login'], email=gUser['email'], permissionLevel=1,isDarkMode=True) #Set name property of user to Github name, or the login if name is not set
         db.session.add(user)
     db.session.commit()
     #Login the user (either gotten from database using 'query' or created)
-    print(github.get('/user/repos'))
+
     login_user(user)
     return redirect('/home')
 
@@ -184,10 +194,11 @@ def profile():
             enableDarkMode = True
         current_user.isDarkMode = enableDarkMode
         current_user.name = request.form.get('name')
+        current_user.email = request.form.get('email')
         db.session.commit()
         flash('Changes saved')
         return redirect('/profile')
-    return render_template('profile.html', name=current_user.name, isDarkMode=current_user.isDarkMode)
+    return render_template('profile.html', name=current_user.name, email=current_user.email if current_user.email is not None else '', isDarkMode=current_user.isDarkMode)
 
 
 @app.route('/profileInfo', methods=['GET', 'POST'])
@@ -200,13 +211,44 @@ def profileInfo():
 def graph():
     return render_template('graph.html')
 
+@app.route('/saveRepo')
+@login_required
+def saveRepo():
+    if current_user.email is None:
+        return 'Email not provided. Go to profile'
+    if current_user.permissionLevel > 1:
+        GitFunctions.updateCommitAuthor(name=current_user.name, email=current_user.email)
+        GitFunctions.updateRepo()
+        return 'Sucess'
+    return 'Read only access'   
+
 @app.route('/getGraphData')
 @login_required
 def getGraphData():
-    pointsAmount = 1000
-    maxY = 1000
-    return [[randint(0, maxY) for i in range(pointsAmount)],[i for i in range(pointsAmount)]]
+    #pointsAmount = 1000000
 
+    print("Sent Data")
+    print(request.args.get('min'))
+    print(request.args.get('max'))
+    startIndex = int(request.args.get('min'))
+    endIndex = int(request.args.get('max'))
+    return DataFunctions.getSampleData(startIndex=startIndex, endIndex=endIndex, amountOfPoints=8000)
+
+@app.route('/adminPage', methods=['GET', 'POST'])
+@login_required
+def adminPage():
+    if request.method == 'POST' and current_user.permissionLevel == 1:
+        for i in request.form:
+            print(i)
+            print(request.form.get(i))
+            User.query.get(i).permissionLevel = request.form.get(i)
+            db.session.commit()
+
+        return redirect('/adminPage')
+    elif current_user.permissionLevel == 1:
+        users = User.query.all() if current_user.permissionLevel == 1 else None
+        return render_template('adminPage.html', users=users)
+    return 'no.'
 @app.route('/home')
 @login_required
 def home():

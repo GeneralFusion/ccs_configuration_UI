@@ -68,7 +68,7 @@ function Client(props) {
 
     return (
         <div>
-            <h2>Client #{props.clientNumber}</h2>
+            <h2>Client: {props.clientName}</h2>
             <Paper elevation={5}>
                 <Grid container spacing={1} alignItems="center" sx={{ px: 1 }}>
                     {valueChangerGlobalList}

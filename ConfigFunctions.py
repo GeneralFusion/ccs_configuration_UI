@@ -14,7 +14,7 @@ def getClients(file, clientNumber):
 
 def parseYAML(file):
 
-    with open(f'./{file}.yml', 'r', encoding=None) as stream:
+    with open(f'C:\Code\ReactUI\z\gitTestRepo\{file}.yml', 'r', encoding=None) as stream:
         try:
             loadedYAML = safe_load(stream)
         except:
@@ -25,6 +25,6 @@ def saveClientsToFile(file,newClients):
     #Best way is to go and edit the YAML file directly instead of reloading it and editing
     currentYAML = parseYAML(file)
     currentYAML['clients'] |= newClients # '|' is Dictionary update operator
-    with open(f'./{file}.yml', 'w') as file:#Use Regex to add '---'
+    with open(f'C:\Code\ReactUI\z\gitTestRepo\{file}.yml', 'w') as file:#Use Regex to add '---'
         documents = dump(currentYAML, file)
  

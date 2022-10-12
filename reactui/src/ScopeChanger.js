@@ -15,8 +15,10 @@ function ScopeChanger(props) {
     const properties = props.value
     const newKeyHistory = [...props.keyHistory, props.scopeIndex]
     const [currentType, setCurrentType] = useState(properties['type'])
+    const [addingChannel, setAddingChannel] = useState(false)
     const scopeProperties = useRef({ ...props.value })
-    const setDefaults = useRef(false)
+    const setDefaults = useRef(true)
+
     let channels = []
 
     console.log(childKey)
@@ -53,6 +55,7 @@ function ScopeChanger(props) {
         for (const [property, value] of Object.entries(typeDB['channelProperties'])) {
             returnChannel[property] = value['defaultValue']
         }
+        console.log(returnChannel)
         return returnChannel
     }
     const channelUpdate = (channel) => {
@@ -69,12 +72,17 @@ function ScopeChanger(props) {
         //saveChange([[...props.keyHistory, scopeIndex, 'activeChannels'], activeChannels]);
         //saveChange([[...props.keyHistory, scopeIndex, 'channelsConfigSettings'], channelProperties]);
     }
-
+    const addChannel = () => {
+        const newChannelNumber = scopeProperties.current['activeChannels'][scopeProperties.current['activeChannels'].length - 1] + 1
+        channelUpdate(newChannelNumber)
+        setAddingChannel(!addingChannel)
+        console.log(scopeProperties.current)
+    }
     const nameUpdates = (newName) => {
         saveChange(newName)
     }
 
-    for (let channelIndex = 1; channelIndex <= typeDB['maxChannels']; channelIndex++) {
+    for (let channelIndex = 1; channelIndex <= (currentType === 'dtacq' ? scopeProperties.current['activeChannels'][scopeProperties.current['activeChannels'].length - 1] : typeDB['maxChannels']); channelIndex++) {
         let isActive = scopeProperties.current['activeChannels'].includes(channelIndex)
         channels.push(
             <ImageListItem key={++childKey}>
@@ -262,6 +270,9 @@ function ScopeChanger(props) {
             <Grid md={16} xs={16}>
                 <Button variant="contained" onClick={sendChanges}>
                     Save Scope
+                </Button>
+                <Button disabled={currentType === 'dtacq' ? false : true} sx={{mx: 1}}variant="contained" onClick={addChannel}>
+                    Add Channel
                 </Button>
             </Grid>
 
