@@ -73,14 +73,14 @@ def getData():
         return {'clients':clients,'propertiesDB':propertiesDB, 'scopesDB':scopesDB}, 200
     if request.method == 'POST':
         (request.json)#???????????????????????????????????
-        if current_user.permissionLevel > 0:
+        if current_user.permissionLevel > 1:
             print("Updated client:")
             ConfigFunctions.saveClientsToFile('testConfig',request.json)
             #IF EVERYTHING GOOD
             if saveRepo():
                 return 'Sucess', 201
-            return 'No GitHub access', 513
-        return 'Not Authorized', 514
+            return 'No GitHub access', 513 #Most likely email not provided
+        return 'Not Authorized', 514 #Permission level insufficient 
 @app.route('/static/<folder>/<file>')#This function is neccesary to serve react 
 def css(folder,file):
     ''' User will call with with thier id to store the symbol as registered'''
@@ -266,8 +266,8 @@ def adminPage():
             print(i)
             print(request.form.get(i))
             User.query.get(i).permissionLevel = request.form.get(i)
-            db.session.commit()
-            return redirect('/adminPage')
+        db.session.commit()
+        return redirect('/adminPage')
 
         return redirect('/adminPage')
     if request.method == 'GET':
@@ -275,7 +275,7 @@ def adminPage():
         return render_template('adminPage.html', users=users)
     return 'no.'
 def isAdmin(user):
-    return user.permissionLevel > 1
+    return user.permissionLevel > 3
 @app.route('/home')
 @login_required
 def home():

@@ -10,13 +10,13 @@ function DropdownChanger(props) {
     }
 
     let returnSelect
-    const style={ mb: 1, minWidth: 5, fontSize: 12 }
+    const style={ minWidth: 5, fontSize: '1em' }
     if (props.options.differentLabels) {
         returnSelect = (
             <Select disabled={props.isDisabled} size="small" sx={style} MenuProps={{ PaperProps: { sx: { maxHeight: 200 } } }}
             value={value} onChange={handleChange}>
                 {props.options.selections.map((option) => (
-                    <MenuItem key={option.value} value={option.value} style={{fontSize: 12}}>
+                    <MenuItem key={option.value} value={option.value} style={{fontSize: 20}}>
                         {option.label}{' '}
                     </MenuItem>
                 ))}
@@ -24,9 +24,9 @@ function DropdownChanger(props) {
         )
     } else {
         returnSelect = (
-            <Select disabled={props.isDisabled} size="small" MenuProps={{ PaperProps: { sx: { maxHeight: 200 } } }} sx={style} value={value} onChange={handleChange}>
+            <Select disabled={props.isDisabled} size="small" MenuProps={{ PaperProps: { sx: {  } } }} sx={style} value={value} onChange={handleChange}>
                 {props.options.selections.map((option) => (
-                    <MenuItem key={option} value={option} style={{fontSize: 12}}>
+                    <MenuItem key={option} value={option} style={{}}>
                         {option}{' '}
                     </MenuItem>
                 ))}

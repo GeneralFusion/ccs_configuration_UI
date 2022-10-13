@@ -92,7 +92,7 @@ function Controller(props) {
             }
             else{
                 console.log(resp)
-                setSaveButton({text: resp.status === 513 ? 'No Repo Access' : 'Not Authorized', color:'error'})
+                setSaveButton({text: resp.status === 513 ? 'Email not provided' : 'Not Authorized', color:'error'})
             }
         
     }

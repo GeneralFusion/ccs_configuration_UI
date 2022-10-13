@@ -15,12 +15,12 @@ import { Component } from 'react'
 function ValueChanger(props) {
     //Add steps and min and max ranges.
     const [valueChanger, isLarge] = createValueChanger(props)
-    const fontSize = Math.min(190 / props.propertiesDB[props.property].name.length, 13) 
+    const fontSize = '10px'//Math.min(190 / props.propertiesDB[props.property].name.length, 13) 
     if(isLarge){
         return (
             <Paper elevation={4}>
                 <Box sx={{ px: 1,textAlign: 'center', border: props.hasBorder ? 'solid 0px' : 'none' }}>
-                    <h2 style={{ fontSize: 20 }}>{props.propertiesDB[props.property].name}</h2>
+                    <h2 style={{ fontSize: 20,   }}>{props.propertiesDB[props.property].name}</h2>
                     {valueChanger}
                 </Box>
             </Paper>
@@ -29,8 +29,16 @@ function ValueChanger(props) {
     else{
         return (
             <Paper elevation={4}>
-                <Box sx={{ px: 1, minHeight: 70, maxHeight: 70,height: 70,textAlign: 'center', border: props.hasBorder ? 'solid 0px' : 'none' }}>
-                    <h2 style={{ fontSize: fontSize }}>{props.propertiesDB[props.property].name}</h2>
+                <Box sx={{ px: 1, 
+                    height: 70,
+           
+                    textAlign: 'center', 
+                    
+                    border: props.hasBorder ? 'solid 0px' : 'none' }}>
+                    <h2 style={{ 
+                        fontSize: fontSize, 
+                        margin: 1
+                        }}>{props.propertiesDB[props.property].name}</h2>
                     {valueChanger}
                 </Box>
             </Paper>

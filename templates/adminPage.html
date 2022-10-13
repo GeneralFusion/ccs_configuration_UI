@@ -14,14 +14,14 @@
                 {% for user in users%} 
           <div class="column is-2 has-text-centered">
             <div class="box">
-              <h1 class="title is-2">{{user.name}}</h1>
+              <h1 class="title is-4">{{user.name}}</h1>
               <h1 class="subtitle is-5 mb-1">{{user.githubName}}</h1>
 
               <div class="field">
                 <label class="label" for="{{user.id}}">Permission Level: </label>
-                <input class="input has-text-centered" type="text" name="{{user.id}}" value="{{user.permissionLevel}}" />
+                <input class="input is-small has-text-centered" type="text" name="{{user.id}}" value="{{user.permissionLevel}}" />
               </div>
-              <button class="js-modal-trigger button is-warning" data-target="modal-js-example" type="button" onclick="openModal('{{user.name}}', '{{user.id}}')">
+              <button class="js-modal-trigger is-small button is-warning" data-target="modal-js-example" type="button" onclick="openModal('{{user.name}}', '{{user.id}}')">
                 Remove user 
               </button>
             </div>
@@ -45,7 +45,7 @@
             <div class="columns has-text-centered">
               <div class="column is-full">
                 <h1 class="title">Are you sure you want to remove <br><span id="userToRemove"></span></h1>
-                <a class="button is-fullwidth is-danger" data-id="" id="userRemoveButton" href="">Yes</a>
+                <a class="button is-large is-fullwidth is-danger" data-id="" id="userRemoveButton" href="">Yes</a>
               </div>
             </div>
     

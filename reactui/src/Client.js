@@ -34,8 +34,11 @@ function Client(props) {
 
     for (const [property, value] of Object.entries(props.properties)) {
         const size = props.propertiesDB[property]['size'] || 'large'
+        if(props.propertiesDB[property]['enabled'] === false){
+            continue
+        }
         const component = (
-            <Grid key={property} xs={xs[size]} sm={sm[size]} md={md[size]} xl={xl[size]} sx={{mb: '2px'}}>
+            <Grid key={property} xs={6} md={4} sx={{mb: '2px'}}>
                 <ValueChanger
                     property={property}
                     keyHistory={[]}

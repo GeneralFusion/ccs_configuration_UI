@@ -16,7 +16,7 @@ function TextChanger(props) {
         <TextField
             disabled={props.isDisabled}
             size="small"
-            sx={{ mb: 1 }}
+            sx={{ mb: 0 }}
             inputProps={{ style: { textAlign: 'center', fontSize: '1em' } }}
             defaultValue={props.value}
             onChange={handleChange}
