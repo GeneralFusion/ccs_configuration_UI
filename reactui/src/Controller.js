@@ -1,10 +1,13 @@
 import Button from '@mui/material/Button'
+import { CircularProgress, LinearProgress } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
+
 import Client from './Client.js'
 import React, { useState } from 'react'
 import { useTheme } from '@mui/material/styles'
+import { Container } from '@mui/material';
 
-import { loadYAML } from './YAML.js'
+
 let mainConfig
 //Value:Label Mappings,
 //collapsbible, make scopes to names instead of numbers, change to array for order,
@@ -13,7 +16,6 @@ function Controller(props) {
     const [clients, setClients] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
     const [saveButton, setSaveButton] = useState({text: 'Save Changes', color: 'primary'})
-    const yamlFile = loadYAML('test.yml')
     //MAKE SURE NO DOBULE CLIKING
     const homeButton = (<Button href={'/home'}>Home</Button>)
     console.log('Controller rerender')
@@ -108,10 +110,18 @@ function Controller(props) {
                 <Button variant="contained" color={saveButton.color} onClick={() => saveChanges()} sx={{marginTop: 1, width: 1}}>
                     {saveButton.text}
                 </Button>
+                {saveButton.text === 'Saving Changes...' && <LinearProgress/>}
             </div>
         )
     } else {
-   
+        return(
+            <Container sx={{textAlign:'center'}}>
+
+            <h1>Fetching Information...</h1>
+            <LinearProgress></LinearProgress>
+            </Container>
+
+        )
     }
 }
 

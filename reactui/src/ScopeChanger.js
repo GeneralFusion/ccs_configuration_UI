@@ -1,14 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2'
 import Box from '@mui/material/Box'
-import { Accordion, AccordionSummary, AccordionDetails, Button } from '@mui/material'
+import { Accordion, AccordionSummary, AccordionDetails, Button, TextField } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import AddIcon from '@mui/icons-material/AddCircle'
+import RemoveIcon from '@mui/icons-material/RemoveCircle'
 
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
 import ValueChanger from './ValueChanger'
 import ChannelChanger from './ChannelChanger.js'
+import SliderChanger from './SliderChanger.js'
 
 let childKey = 0 //This is to ensure that the key of the channel changes each re render. So the channel will actually be remade.
+//FOR DTACQ - CHANNELS ARE ONLY REMOVED WHEN DEACTIVATED IF THEY ARE AT THE END.
 
 
 function ScopeChanger(props) {
@@ -67,14 +72,38 @@ function ScopeChanger(props) {
             delete scopeProperties.current['channelsConfigSettings'][channel]
             scopeProperties.current['activeChannels'].splice(scopeProperties.current['activeChannels'].indexOf(channel), 1)
         }
-        console.log(scopeProperties.current)
+        //console.log(scopeProperties.current)
 
     }
-    const addChannel = () => {
-        const newChannelNumber = scopeProperties.current['activeChannels'][scopeProperties.current['activeChannels'].length - 1] + 1
-        channelUpdate(newChannelNumber)
-        setAddingChannel(!addingChannel)
+    const addChannel = (amountOfChannels) => {
+        // eslint disable-line no-unused-vars
+        console.log(amountOfChannels)
+        for(let i = 0; i < amountOfChannels; i++){
+            const newChannelNumber = scopeProperties.current['activeChannels'].length > 0 ? scopeProperties.current['activeChannels'][scopeProperties.current['activeChannels'].length - 1] + 1 : 1
+            channelUpdate(newChannelNumber)
+            setAddingChannel(!addingChannel)
+        }
+
         console.log(scopeProperties.current)
+    }
+    const removeChannel = (amountOfChannels) => {
+        const activeChannelsRef = scopeProperties.current['activeChannels']
+        let activeChannelLength = activeChannelsRef.length
+        if(activeChannelLength > 1 && amountOfChannels - 1 < activeChannelsRef[activeChannelLength - 1] - activeChannelsRef[0]){
+            // for(let i = 0; i < amountOfChannels; i++){
+            //     channelUpdate(scopeProperties.current['activeChannels'][scopeProperties.current['activeChannels'].length - 1])
+            // }
+            let i = 0;
+            while(i < amountOfChannels){
+                let inc = activeChannelsRef[activeChannelLength - 1] - activeChannelsRef[activeChannelLength - 2] 
+                channelUpdate(activeChannelsRef[activeChannelLength - 1])
+                activeChannelLength--
+                i += inc
+            }
+            //setAddingChannel(!addingChannel)
+        }
+        setAddingChannel(!addingChannel)
+        console.log(scopeProperties.current['activeChannels'])
     }
     const nameUpdates = (newName) => {
         saveChange(newName)
@@ -267,17 +296,45 @@ function ScopeChanger(props) {
                 </ImageList>
             </Grid>
             <Grid md={16} xs={16}>
-                <Button variant="contained" onClick={sendChanges}>
+                <Button sx={{fontSize: '1em', mr: 1}} variant="contained" onClick={sendChanges}>
                     Save Scope
                 </Button>
-                <Button disabled={currentType === 'dtacq' ? false : true} sx={{mx: 1}}variant="contained" onClick={addChannel}>
+                {/* <Button disabled={currentType === 'dtacq' ? false : true} sx={{mx: 1}}variant="contained" onClick={addChannel}>
                     Add Channel
-                </Button>
+                </Button> */}
+                <ChannelAmountChanger isDisabled={currentType === 'dtacq' ? false: true} isAdding={true} updateAmount={addChannel}></ChannelAmountChanger>
+                <ChannelAmountChanger isDisabled={currentType === 'dtacq' ? false: true} isAdding={false} updateAmount={removeChannel}></ChannelAmountChanger>
+
             </Grid>
 
             {/* ROW 3 */}
         </Grid>
     )
 }
+function ChannelAmountChanger(props){
+    const [channelAmount, setChannelAmount] = useState(1)
+    
+    const UpdateButton = () => (
+        <IconButton disabled={props.isDisabled}onClick={e => props.updateAmount(channelAmount)}>
+            {props.isAdding ? <AddIcon/> : <RemoveIcon/>}
+        </IconButton>
+    )
+
+
+
+    const handleAddChannelsChange = (event) => {
+        if(!isNaN(event.nativeEvent.data)){
+            const value = Math.abs(event.target.value)
+            setChannelAmount(value)
+        }
+    }
+    return(
+        <TextField disabled={props.isDisabled}
+        InputProps={{endAdornment: <UpdateButton/>}}
+        inputProps={{style: { textAlign: 'left', fontSize: '1em' } }} sx={{width: '115px'}} 
+        size="small" label={props.isAdding ? 'Add Channels' : 'Remove Channels'}  value={channelAmount} onChange={handleAddChannelsChange}></TextField>
+    )
+}
+
 
 export default ScopeChanger

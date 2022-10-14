@@ -27,13 +27,14 @@ reactFolder = 'reactui'
 directory = os.getcwd() + f'/{reactFolder}/build/static'
 
 app = Flask(__name__)
-db = SQLAlchemy(app)
-
-
 app.config['SECRET_KEY'] = '3043eb66-4f9f-4d16-a02f-a31fed11cae0'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['GITHUB_CLIENT_ID'] = '161c62318fa3b687d4df'
 app.config['GITHUB_CLIENT_SECRET'] = '770009e9f42be603520c91d3b5b9b1e9c910a375'
+db = SQLAlchemy(app)
+
+
+
 
 github = GitHub(app)
 AUTHSCOPE = "read:org read:user"
@@ -62,6 +63,7 @@ def getData():
             currentClientNumber = session['clientNumber']
         except KeyError:
             currentClientNumber = '1'
+        GitFunctions.pullRepo()
         parsedYAML = ConfigFunctions.parseYAML('testConfig')
         clients = ConfigFunctions.getClients(parsedYAML, currentClientNumber)
         propertiesDB = ConfigFunctions.parseYAML('propertiesDB')
@@ -282,5 +284,6 @@ def home():
     return render_template('home.html', name=current_user.name)
 
 if __name__ == '__main__':
-    db.create_all()
-    app.run(debug=True, threaded=True)
+    with app.app_context():
+        db.create_all()
+    app.run(host="0.0.0.0",debug=True, threaded=True)

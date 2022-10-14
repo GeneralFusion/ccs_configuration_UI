@@ -1,6 +1,7 @@
-from calendar import c
-from yaml import safe_load, dump
 
+from yaml import safe_load, dump
+import pathlib
+CONFIGURL = pathlib.Path.cwd() / 'gitTestRepo'
 def getClients(file, clientNumber):
     clients = {}
 
@@ -13,8 +14,10 @@ def getClients(file, clientNumber):
     return clients
 
 def parseYAML(file):
-
-    with open(f'C:\Code\ReactUI\z\gitTestRepo\{file}.yml', 'r', encoding=None) as stream:
+    fileURL = file + '.yml'
+    fileLoc = str(CONFIGURL / fileURL)
+    print(fileLoc)
+    with open(fileLoc, 'r', encoding=None) as stream:
         try:
             loadedYAML = safe_load(stream)
         except:
@@ -22,9 +25,11 @@ def parseYAML(file):
     return loadedYAML#Add checking for clientNUmber
 
 def saveClientsToFile(file,newClients):
+    fileURL = file + '.yml'
+    fileLoc = str(CONFIGURL / fileURL)
     #Best way is to go and edit the YAML file directly instead of reloading it and editing
     currentYAML = parseYAML(file)
     currentYAML['clients'] |= newClients # '|' is Dictionary update operator
-    with open(f'C:\Code\ReactUI\z\gitTestRepo\{file}.yml', 'w') as file:#Use Regex to add '---'
+    with open(fileLoc, 'w') as file:#Use Regex to add '---'
         documents = dump(currentYAML, file)
  
