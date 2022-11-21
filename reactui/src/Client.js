@@ -43,6 +43,7 @@ function Client(props) {
                     property={property}
                     keyHistory={[]}
                     value={value}
+                    userLevel={props.userLevel}
                     propertiesDB={props.propertiesDB}
                     scopesDB={props.scopesDB}
                     onValueChange={sendChange}

@@ -7,7 +7,7 @@ REPOURL = str(CWD / 'gitTestRepo')
 BRANCH = 'newBranch'
 CHECKOUTBRANCHCMD = ["git", "-C", REPOURL, "checkout", BRANCH]
 ADDFILESCMD = ["git", "-C", REPOURL, "add", "."]
-COMMITCMD = ["git", "-C", REPOURL, "commit", "-m", "Commting"]
+COMMITCMD = ["git", "-C", REPOURL, "commit", "-m"]
 PUSHCMD = ["git", "-C", REPOURL, "push"]
 PULLCMD = ["git", "-C", REPOURL, "pull"]
 RESETCMD = ["git", "-C", REPOURL, "reset", "--hard", "HEAD"]
@@ -20,12 +20,16 @@ def pullRepo():
     subprocess.check_call(RESETCMD)
     subprocess.check_call(PULLCMD)
     
-def updateRepo():    
+def updateRepo(commitMessage):    
     subprocess.check_call(ADDFILESCMD)
     subprocess.check_call(CHECKOUTBRANCHCMD)
-
+    commitWithMessage = COMMITCMD.copy()
+    print(commitWithMessage)
+    print("message ", commitMessage)
+    commitWithMessage.append(str(commitMessage))
+    print(commitWithMessage)
     try:
-        subprocess.check_call(COMMITCMD)
+        subprocess.check_call(commitWithMessage)
     except:
         print("No files different")
     

@@ -1,19 +1,35 @@
 {%extends 'base.html' %}
 
 {%block content%}
-
       <div class="box">
-        
+        <div class="columns">
+          <div class="column is-full has-text-centered">
+            <h1 class="title is-1">
+              Repository Properties
+            </h1>
+            <form action="/setRepo" method="post">
+              <div class="field">
+                <label class="label" for = "CCSRepo">CCS Repository URL</label>
+                <input class="input" type = "text" name = "CCSRepo" placeholder = "CCSRepo" />
+              </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="box ">
             <div class="columns">
                 <div class="column is-full has-text-centered">
-                    <h1 class="title is-1 has-Te">Users</h1>
+                    <h1 class="title is-1">Users</h1>
                 </div>
             </div>
             <form action="{{ request.path }}" method="post">
             <div class="columns is-multiline">
                 {% for user in users%} 
           <div class="column is-2 has-text-centered">
-            <div class="box">
+            <div class="box" style="white-space: nowrap; overflow: hidden;">
               <h1 class="title is-4">{{user.name}}</h1>
               <h1 class="subtitle is-5 mb-1">{{user.githubName}}</h1>
 

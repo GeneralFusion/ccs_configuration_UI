@@ -2,7 +2,7 @@ import * as React from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Controller from './Controller.js';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme, makeStyles } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
 
@@ -41,11 +41,10 @@ export default function App() {
                  background-color: #f21fa1;
                  border-radius: 13px;
                  border: none;
+               },
+               h2{
+                fontSize: 30
                }
-    
-              
-  
-
                `
               
             }
@@ -73,6 +72,9 @@ export default function App() {
  
           },
           typography:{
+            h2:{
+              fontSize: 30
+            },
             fontSize: 12,
             fontFamily: [
               '-apple-system',
@@ -88,7 +90,7 @@ export default function App() {
             ].join(','),
           }
         })
-    
+
     fetch('/profileInfo').then(res => {
       res.json().then(isDarkMode => {
         setMode(isDarkMode.isDarkMode ? 'dark' : 'light')

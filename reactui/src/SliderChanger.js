@@ -1,34 +1,65 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import MuiInput from '@mui/material/Input'
-
+import TextField from '@mui/material/TextField'
 import Slider from '@mui/material/Slider'
 
-function SliderChanger(props) {
+function SliderChanger(props) {//somehow helper text goes away right away after clicking away
+    
+    const [errorText, setErrorText] = useState(null)
     const [value, setValue] = useState(Number(props.value))
     const options = props.options
+    useEffect(()=>{setValue(valueValid(value))},[])
     const sendChange = () => {
         props.onValueChange([props.keyHistory, value])
     }
     const handleChange = (event, newValue) => {
-        setValue(event.target.value === '' ? '' : Number(event.target.value))
+        setValue(event.target.value === '' ? '' : valueValid(Number(event.target.value)))
+        
+    }
+    function valueValid(v){//CHECK IF VALUE IS ALLOWED ACCORDING TO OPTIONS
+        let tempValue = v
+   
+        if (tempValue < options.min) {
+            tempValue = options.min
+            setErrorText("Set to min")
+            
+        } else if (tempValue > options.max) {
+            tempValue = options.max
+            setErrorText("Set to max")
+        }
+        else{
+            let finalNumber = (options.step * Math.round(tempValue / options.step))//Make sure correct incrememnt
+            finalNumber = finalNumber.toFixed(Math.abs(Math.log10(options.step)))//Remove any trailing zeros due to float addition bug
+            finalNumber = parseFloat(finalNumber)//Convert back to a float
+            if(finalNumber !== tempValue){
+                console.log("Changed value with steps")
+                // setIsError(true)
+                setErrorText("Invalid Increment")
+            }
+            else{
+                setErrorText('')
+            }
+            return(finalNumber)
+        }
+
+        return(tempValue) //Make value to closest step
     }
     const handleBlur = () => {
-        let tempValue = value
-        if (value < options.min) {
-            tempValue = options.min
-        } else if (value > options.max) {
-            tempValue = options.max
-        }
-        setValue(options.step * Math.round(tempValue / options.step)) //Make value to closest step
+        setValue(valueValid(value))
         sendChange(value)
     }
-
+    
     return (
         // <Slider size="small" sx={{width: '90%', mt: 1, color: 'crimson'}} valueLabelDisplay="on" value={value} min={options.min} max={options.max} step={options.step} marks={options.marks} track={options.track} onChange={handleChange} onChangeCommitted={sendChange}></Slider>
-        <MuiInput
+        
+        <div>
+            <TextField
             disabled={props.isDisabled}
             value={value}
-            sx={{}}
+            sx={{height: 70}}
+
+            size={'small'}
+            helperText={errorText}
             inputProps={{
                 step: options.step,
                 min: options.min,
@@ -38,7 +69,9 @@ function SliderChanger(props) {
             }}
             onChange={handleChange}
             onBlur={handleBlur}
-        ></MuiInput>
+        ></TextField>
+
+        </div>
     )
 }
 

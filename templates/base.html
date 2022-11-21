@@ -2,36 +2,75 @@
 <html>
   <head>
     <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/cyborg/bulmaswatch.min.css">
-
+     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"> -->
     {%block head%}
     {%endblock%}
 </head>
-   
-    <body>
-       
-        <div class="columns">
-            <div class="column has-text-centered is-2">
-                <div class="box">
-                    <a class="button" href="/home">Home</a>
-                </div>
-            </div>
-            <div class="column has-text-centered">
-                <h1 class="title">Welcome <span class="title is-1">{{name}}</span></h1> 
-            </div>
-            <div class="column has-text-centered is-1">
-                <div class="box">
-                    <a class="button" href="/profile">Profile</a>
-                </div>
-            </div>
-            <div class="column has-text-centered is-1">
-                <div class="box">
-                    <a class="button" href="/logout">Logout</a>
-                </div>
-            </div>
-    
-        </div>
-        <hr/>
+   <script>
+        let burgerToggled = false;
+        function toggleBurger(){
+            const navbar = document.getElementById("AppNavBar")
+            const burgerButton = document.getElementById("navbarBurgerButton")
+            if(!burgerToggled){
+                burgerToggled = true
+                navbar.classList.add('is-active')
+                burgerButton.classList.add('is-active')
 
+            }
+            else{
+                burgerToggled = false
+                navbar.classList.remove('is-active')
+                burgerButton.classList.remove('is-active')
+            }
+        }
+   </script>
+    <body>
+        <nav class="navbar" style="margin-bottom: 1.5em" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+              <a class="navbar-item">
+                <img src="{{url_for('static', filename='gfLogo.png')}}">
+              </a>
+          
+              <a role="button" id="navbarBurgerButton" class="navbar-burger" aria-label="menu" onclick="toggleBurger()" aria-expanded="false" data-target="AppNavBar">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+              </a>
+            </div>
+          
+            <div id="AppNavBar" class="navbar-menu">
+              <div class="navbar-start">
+                <a class="navbar-item" href="/home">
+                  Home
+                </a>
+          
+ 
+          
+                <div class="navbar-item has-dropdown is-hoverable">
+                  <a class="navbar-link">
+                    More
+                  </a>
+          
+                  <div class="navbar-dropdown">
+                    <a class="navbar-item" href="/profile">
+                      Profile
+                    </a>
+                  </div>
+                  
+                </div>
+              </div>
+          
+              <div class="navbar-end">
+                <div class="navbar-item">
+                  <div class="buttons">
+                    <a class="button is-light" href="/logout">
+                      Log out
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nav>
         {%block content%}
         {%endblock%}
       

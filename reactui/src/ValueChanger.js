@@ -12,15 +12,34 @@ import ScopeChanger from './ScopeChanger.js'
 
 import { Component } from 'react'
 
+
 function ValueChanger(props) {
     //Add steps and min and max ranges.
+    const styles = {
+        bigBox:{
+            px: 1,
+            textAlign: 'center', 
+            border: props.hasBorder ? 'solid 0px' : 'none'
+        },
+        smallBox:{
+            px: 1, 
+            height: 70,
+            textAlign: 'center', 
+            border: props.hasBorder ? 'solid 0px' : 'none'
+        },
+        smallBoxH2:{
+            fontSize: '10px', 
+            margin: 1
+        }
+    }
+
     const [valueChanger, isLarge] = createValueChanger(props)
-    const fontSize = '10px'//Math.min(190 / props.propertiesDB[props.property].name.length, 13) 
+    //const fontSize = '10px'//Math.min(190 / props.propertiesDB[props.property].name.length, 13) 
     if(isLarge){
         return (
             <Paper elevation={4}>
-                <Box sx={{ px: 1,textAlign: 'center', border: props.hasBorder ? 'solid 0px' : 'none' }}>
-                    <h2 style={{ fontSize: 20,   }}>{props.propertiesDB[props.property].name}</h2>
+                <Box sx={styles.bigBox}>
+                    <h2 style={{   }}>{props.propertiesDB[props.property].name}</h2>
                     {valueChanger}
                 </Box>
             </Paper>
@@ -29,16 +48,8 @@ function ValueChanger(props) {
     else{
         return (
             <Paper elevation={4}>
-                <Box sx={{ px: 1, 
-                    height: 70,
-           
-                    textAlign: 'center', 
-                    
-                    border: props.hasBorder ? 'solid 0px' : 'none' }}>
-                    <h2 style={{ 
-                        fontSize: fontSize, 
-                        margin: 1
-                        }}>{props.propertiesDB[props.property].name}</h2>
+                <Box sx={ styles.smallBox }>
+                    <h2 style={styles.smallBoxH2}>{props.propertiesDB[props.property].name}</h2>
                     {valueChanger}
                 </Box>
             </Paper>
@@ -59,6 +70,7 @@ function createValueChanger(props) {
     let isLarge = false
     const componentType = props.propertiesDB[props.property]['type']
     const newKeyHistory = [...props.keyHistory, props.property]
+    const levelTooLow = props.userLevel < props.propertiesDB[props.property]['permission']
 
     switch (
         componentType //THIS WILL BE THE LOOKUP TABLE
@@ -66,7 +78,7 @@ function createValueChanger(props) {
         case 'boolean':
             valueChangerComponent = (
                 <BooleanChanger
-                    isDisabled={props.isDisabled}
+                    isDisabled={props.isDisabled || levelTooLow}
                     onValueChange={sendChange}
                     keyHistory={newKeyHistory}
                     value={props.value}
@@ -77,7 +89,7 @@ function createValueChanger(props) {
             valueChangerComponent = (
                 <SliderChanger
                     sx={{}}
-                    isDisabled={props.isDisabled}
+                    isDisabled={props.isDisabled || levelTooLow}
                     onValueChange={sendChange}
                     keyHistory={newKeyHistory}
                     value={props.value}
@@ -88,7 +100,7 @@ function createValueChanger(props) {
         case 'dropDown':
             valueChangerComponent = (
                 <DropdownChanger
-                    isDisabled={props.isDisabled}
+                    isDisabled={props.isDisabled || levelTooLow}
                     onValueChange={sendChange}
                     keyHistory={newKeyHistory}
                     value={props.value}
@@ -100,10 +112,11 @@ function createValueChanger(props) {
         case 'section':
             valueChangerComponent = (
                 <Section
-                    isDisabled={props.isDisabled}
+                    isDisabled={props.isDisabled || levelTooLow}
                     value={props.value}
                     onValueChange={sendChange}
                     keyHistory={newKeyHistory}
+                    userLevel={props.userLevel}
                     property={props.property}
                     propertiesDB={props.propertiesDB}
                     scopesDB={props.scopesDB}
@@ -114,11 +127,12 @@ function createValueChanger(props) {
         case 'collapsible':
             valueChangerComponent = (
                 <CollapsibleChanger
-                    isDisabled={props.isDisabled}
+                    isDisabled={props.isDisabled || levelTooLow}
                     value={props.value}
                     onValueChange={sendChange}
                     keyHistory={newKeyHistory}
                     property={props.property}
+                    userLevel={props.userLevel}
                     propertiesDB={props.propertiesDB}
                     scopesDB={props.scopesDB}
                 ></CollapsibleChanger>
@@ -129,7 +143,7 @@ function createValueChanger(props) {
         case 'text':
             valueChangerComponent = (
                 <TextChanger
-                    isDisabled={props.isDisabled}
+                    isDisabled={props.isDisabled || levelTooLow}
                     value={props.value}
                     onValueChange={sendChange}
                     keyHistory={newKeyHistory}
@@ -141,7 +155,7 @@ function createValueChanger(props) {
         case 'list':
             valueChangerComponent = (
                 <ListChanger
-                    isDisabled={props.isDisabled}
+                    isDisabled={props.isDisabled || levelTooLow}
                     value={props.value}
                     onValueChange={sendChange}
                     keyHistory={newKeyHistory}
@@ -155,10 +169,11 @@ function createValueChanger(props) {
             isLarge = true
             valueChangerComponent = (
                 <ScopeChanger
-                    isDisabled={props.isDisabled}
+                    isDisabled={props.isDisabled || levelTooLow}
                     value={props.value}
                     onValueChange={sendChange}
                     keyHistory={newKeyHistory}
+                    userLevel={props.userLevel}
                     property={props.property}
                     propertiesDB={props.propertiesDB}
                 ></ScopeChanger>

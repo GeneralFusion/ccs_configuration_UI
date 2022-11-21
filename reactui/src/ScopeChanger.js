@@ -20,16 +20,17 @@ function ScopeChanger(props) {
     const properties = props.value
     const newKeyHistory = [...props.keyHistory, props.scopeIndex]
     const [currentType, setCurrentType] = useState(properties['type'])
-    const [addingChannel, setAddingChannel] = useState(false)
+    const [addingChannel, setAddingChannel] = useState(false)//Just a way to refresh all scopes. Could be called refreshScope. 
     const scopeProperties = useRef({ ...props.value })
     const setDefaults = useRef(false)
 
     let channels = []
 
-    console.log(childKey)
+    console.log(scopeProperties.current)
 
     const typeDB = props.scopesDB[currentType]
     const saveChange = (newValue) => {
+        console.log(newValue)
         const keyHistory = newValue[0]
         const keyHistoryLength = keyHistory.length
         let firstIndex = keyHistoryLength - 1
@@ -43,8 +44,11 @@ function ScopeChanger(props) {
         }
         tempObj[keyHistory[keyHistoryLength - 1]] = newValue[1]
         console.log(scopeProperties.current)
+        setAddingChannel(!addingChannel)//SINCE CHANGING A PROPERTY CAN HAVE EFFECTS ON OTHERS, REFRESH EVERYTHING
+        sendChanges()
     }
     const sendChanges = () => {
+        console.log(scopeProperties.current)
         props.onValueChange([[...props.keyHistory, props.scopeIndex], scopeProperties.current])
     }
     const changeScopeType = (newType) => {
@@ -72,12 +76,11 @@ function ScopeChanger(props) {
             delete scopeProperties.current['channelsConfigSettings'][channel]
             scopeProperties.current['activeChannels'].splice(scopeProperties.current['activeChannels'].indexOf(channel), 1)
         }
-        //console.log(scopeProperties.current)
+        console.log(scopeProperties.current)
 
     }
     const addChannel = (amountOfChannels) => {
-        // eslint disable-line no-unused-vars
-        console.log(amountOfChannels)
+
         for(let i = 0; i < amountOfChannels; i++){
             const newChannelNumber = scopeProperties.current['activeChannels'].length > 0 ? scopeProperties.current['activeChannels'][scopeProperties.current['activeChannels'].length - 1] + 1 : 1
             channelUpdate(newChannelNumber)
@@ -108,6 +111,82 @@ function ScopeChanger(props) {
     const nameUpdates = (newName) => {
         saveChange(newName)
     }
+    const channelCopy = ([channelsExpression, channelNumber]) => {
+        console.log(`Channel: ${channelsExpression}, # ${channelNumber}`)
+        const copyToChannel =(cNum) => {
+            console.log(cNum)
+            if(!scopeProperties.current['activeChannels'].includes(cNum)){
+                channelUpdate(cNum)
+            }
+            const targetChannel = scopeProperties.current['channelsConfigSettings'][cNum]
+            for(let [key, value] of Object.entries(baseChannel)){
+                if(key === 'name'){
+                    continue
+                }
+                targetChannel[key] = value
+                console.log(`key: ${key} value ${value}`)
+            }
+        }
+        const baseChannel = scopeProperties.current['channelsConfigSettings'][channelNumber]
+        for(let channel of channelsExpression.split(',')){
+            if(channel === channelNumber){
+                continue
+            }
+            if(channel.includes('-')){
+                const [minChannel, maxChannel] = channel.split('-')
+                for(let channelCounter = minChannel; channelCounter <= maxChannel; channelCounter++){
+                    copyToChannel(parseInt(channelCounter))
+                }
+            }
+            else{
+                copyToChannel(parseInt(channel))
+            }
+ 
+ 
+            
+
+        }
+        console.log(scopeProperties.current)
+        setAddingChannel(!addingChannel)
+    }
+    const getChannelOptions = (channelNumber) => {//GET DYNAMIC PROPERTY OPTIONS
+        let optionObject = {}
+        console.log("GETTING CHANNEL OPTIONS for " + channelNumber)
+        for(const [key, value] of Object.entries(typeDB['channelProperties'])){
+            if(value['dynamic'] === true){//IS DYNAMIC
+                console.log(key + ' : dynamic' )
+                let dynamicOption = JSON.parse(JSON.stringify(value))
+                for(const [optionsKey, optionsValue] of Object.entries(dynamicOption['options'])){
+                    if(isNaN(Number(optionsValue))){
+                        const optionArray = optionsValue.split(" ")
+                        for (let i in optionArray){
+                            if(isNaN(optionArray[i]) && optionArray[i].length > 1){
+                                if(scopeProperties.current['activeChannels'].includes(channelNumber)){
+                                    optionArray[i] = scopeProperties.current['channelsConfigSettings'][channelNumber][optionArray[i]]
+                                    //What if channel isn't active. Still need something because that channelNumber doesnt exist in scopeProperties
+                                }
+                                else{
+                                    optionArray[i] = typeDB['channelProperties'][optionArray[i]]['defaultValue'] //DEFAULT VALUE
+                                }
+                            }
+                        }
+                        const exp = optionArray.join(' ')
+                        // eslint-disable-next-line no-eval
+                        dynamicOption['options'][optionsKey] = eval(exp)//THIS COULD BE DANGEROUS
+                    }
+                }
+                optionObject[key] = {...dynamicOption}
+            }
+            else{
+                optionObject[key] = typeDB['channelProperties'][key]
+                //optionObject = typeDB['channelProperties']//This just overrites the entire object with the non raw one
+                
+            }
+            //console.log(optionObject)
+
+        }
+        return optionObject
+    }
 
     for (let channelIndex = 1; channelIndex <= (currentType === 'dtacq' ? scopeProperties.current['activeChannels'][scopeProperties.current['activeChannels'].length - 1] : typeDB['maxChannels']); channelIndex++) {
         let isActive = scopeProperties.current['activeChannels'].includes(channelIndex)
@@ -120,8 +199,9 @@ function ScopeChanger(props) {
                     channelNumber={channelIndex}
                     isActive={isActive}
                     keyHistory={[...newKeyHistory, 'channelsConfigSettings', channelIndex]}
-                    propertiesDB={typeDB['channelProperties']}
+                    propertiesDB={getChannelOptions(channelIndex)}
                     onValueChange={saveChange}
+                    onChannelCopy={channelCopy}
                     channelUpdate={channelUpdate}
                 ></ChannelChanger>
             </ImageListItem>
@@ -129,8 +209,7 @@ function ScopeChanger(props) {
         
     }
     console.log(scopeProperties.current)
-
-    childKey++;
+    //childKey++;
     return (
         <Grid container columns={16} spacing={1} sx={{ px: 1 }} >
             {/* ROW 1 */}
@@ -140,6 +219,7 @@ function ScopeChanger(props) {
                     value={properties['connectionString']}
                     keyHistory={newKeyHistory}
                     propertiesDB={props.propertiesDB}
+                    userLevel={props.userLevel}
                     onValueChange={saveChange}
                 ></ValueChanger>
             </Grid>
@@ -150,6 +230,7 @@ function ScopeChanger(props) {
                     value={properties['waveFormat'] ? properties['waveFormat'] : 'BYTE'}
                     keyHistory={newKeyHistory}
                     propertiesDB={props.propertiesDB}
+                    userLevel={props.userLevel}
                     onValueChange={saveChange}
                 ></ValueChanger>
             </Grid>
@@ -160,6 +241,7 @@ function ScopeChanger(props) {
                     value={typeDB['triggerReference']['isDisabled'] || setDefaults.current ? '' : properties[typeDB['triggerReference']['name']]}
                     keyHistory={newKeyHistory}
                     propertiesDB={typeDB}
+                    userLevel={props.userLevel}
                     onValueChange={saveChange}
                 ></ValueChanger>
             </Grid>
@@ -169,6 +251,7 @@ function ScopeChanger(props) {
                     value={properties['name']}
                     keyHistory={newKeyHistory}
                     propertiesDB={props.propertiesDB}
+                    userLevel={props.userLevel}
                     onValueChange={nameUpdates}
                 ></ValueChanger>
             </Grid>
@@ -177,6 +260,7 @@ function ScopeChanger(props) {
                     property={'filePath'}
                     value={properties['filePath']}
                     keyHistory={newKeyHistory}
+                    userLevel={props.userLevel}
                     propertiesDB={props.propertiesDB}
                     onValueChange={saveChange}
                 ></ValueChanger>
@@ -187,6 +271,7 @@ function ScopeChanger(props) {
                     value={properties['fileFormat']}
                     keyHistory={newKeyHistory}
                     propertiesDB={props.propertiesDB}
+                    userLevel={props.userLevel}
                     onValueChange={saveChange}
                 ></ValueChanger>
             </Grid>
@@ -197,6 +282,7 @@ function ScopeChanger(props) {
                     property={'type'}
                     value={properties['type']}
                     keyHistory={newKeyHistory}
+                    userLevel={props.userLevel}
                     propertiesDB={typeDB}
                     onValueChange={changeScopeType}
                 ></ValueChanger>
@@ -206,6 +292,7 @@ function ScopeChanger(props) {
                     property={'triggerType'}
                     value={properties['triggerType']}
                     keyHistory={newKeyHistory}
+                    userLevel={props.userLevel}
                     propertiesDB={typeDB}
                     onValueChange={saveChange}
                 ></ValueChanger>
@@ -216,6 +303,7 @@ function ScopeChanger(props) {
                     isDisabled={typeDB['memSize']['isDisabled']}
                     value={typeDB['memSize']['isDisabled'] || setDefaults.current ? typeDB['memSize']['defaultValue'] : properties[typeDB['memSize']['name']]}
                     keyHistory={newKeyHistory}
+                    userLevel={props.userLevel}
                     propertiesDB={typeDB}
                     onValueChange={saveChange}
                 ></ValueChanger>
@@ -226,6 +314,7 @@ function ScopeChanger(props) {
                     isDisabled={typeDB['tdiv']['isDisabled']}
                     value={typeDB['tdiv']['isDisabled'] || setDefaults.current ? typeDB['tdiv']['defaultValue'] : properties[typeDB['tdiv']['name']]}
                     keyHistory={newKeyHistory}
+                    userLevel={props.userLevel}
                     propertiesDB={typeDB}
                     onValueChange={saveChange}
                 ></ValueChanger>
@@ -237,6 +326,7 @@ function ScopeChanger(props) {
                     value={typeDB['samplingRate']['isDisabled'] || setDefaults.current ? typeDB['samplingRate']['defaultValue'] : properties[typeDB['samplingRate']['name']]}
                     keyHistory={newKeyHistory}
                     propertiesDB={typeDB}
+                    userLevel={props.userLevel}
                     onValueChange={saveChange}
                 ></ValueChanger>
             </Grid>
@@ -246,6 +336,7 @@ function ScopeChanger(props) {
                     isDisabled={typeDB['timeOffset']['isDisabled']}
                     value={typeDB['timeOffset']['isDisabled'] || setDefaults.current ? typeDB['timeOffset']['defaultValue'] : properties[typeDB['timeOffset']['name']]}
                     keyHistory={newKeyHistory}
+                    userLevel={props.userLevel}
                     propertiesDB={typeDB}
                     onValueChange={saveChange}
                 ></ValueChanger>
@@ -261,6 +352,7 @@ function ScopeChanger(props) {
                     }
                     keyHistory={newKeyHistory}
                     propertiesDB={typeDB}
+                    userLevel={props.userLevel}
                     onValueChange={saveChange}
                 ></ValueChanger>
             </Grid>
@@ -275,6 +367,7 @@ function ScopeChanger(props) {
                     }
                     keyHistory={newKeyHistory}
                     propertiesDB={typeDB}
+                    userLevel={props.userLevel}
                     onValueChange={saveChange}
                 ></ValueChanger>
             </Grid>

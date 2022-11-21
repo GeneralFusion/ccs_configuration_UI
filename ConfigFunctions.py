@@ -13,6 +13,11 @@ def getClients(file, clientNumber):
     print(clients)
     return clients
 
+def getAdminProperties(file, permissionLevel):
+    if permissionLevel < 3:
+        return None
+    return {key:value for key,value in file.items() if key != 'clients' and key != 'savePath'}
+
 def parseYAML(file):
     fileURL = file + '.yml'
     fileLoc = str(CONFIGURL / fileURL)

@@ -16,7 +16,7 @@ function DropdownChanger(props) {
             <Select disabled={props.isDisabled} size="small" sx={style} MenuProps={{ PaperProps: { sx: { maxHeight: 200 } } }}
             value={value} onChange={handleChange}>
                 {props.options.selections.map((option) => (
-                    <MenuItem key={option.value} value={option.value} style={{fontSize: 20}}>
+                    <MenuItem key={option.value} value={option.value} style={{fontSize: '1em'}}>
                         {option.label}{' '}
                     </MenuItem>
                 ))}
@@ -24,7 +24,7 @@ function DropdownChanger(props) {
         )
     } else {
         returnSelect = (
-            <Select disabled={props.isDisabled} size="small" MenuProps={{ PaperProps: { sx: {  } } }} sx={style} value={value} onChange={handleChange}>
+            <Select disabled={props.isDisabled} size="small" MenuProps={{ PaperProps: { sx: {} } }} sx={style} value={value} onChange={handleChange}>
                 {props.options.selections.map((option) => (
                     <MenuItem key={option} value={option} style={{}}>
                         {option}{' '}

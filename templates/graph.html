@@ -8,18 +8,108 @@
 {% block content%}
 
 
+<style>
+  #myGraph .dygraph-axis-label { color: white; }
+  .dygraph-legend { text-align: right; }
+  #darkbg .dygraph-legend { background-color: #101015; }
+  #myGraphContainer {
+    background-color: black; 
+    color: white;
+    position: relative;
+    width: 100%;
+  }
+  #buttonsDiv button {
+    /* width: -webkit-fill-available */
+    margin-bottom: 5px;
+  }
+  #buttonsDiv {
+  }
+  .checkBoxText{
+    font-size: large;
+    padding: 6px;
+    border-radius: 5px;
+  }
 
+</style>
 <body>
 
 <div class="columns">.
-  <div class="column is-10 is-offset-1">
+  <div class="column is-full">
     <div class="box">
-        <h1 class="is-1">hello {{data}}</h1>
-        <div>
+        <h1 id="title" class="title is-3">Current Channels: </h1>
+        <!-- <div>
             <canvas id="myChart"></canvas>
-          </div> 
-           <Button class="button" onclick="getData()">Get Data</Button>
-           <Button class="button" onclick="resetZoom()">Reset Zoom</Button>
+            <div id="myGraphContainer">
+            </div>
+          </div>  -->
+          <div class="columns">
+            <div class="column is-3">
+              <div class="columns is-multiline">
+                <div class="column is-6">
+                  <label class="checkbox checkBoxText">
+                    <input type="checkbox" onclick="checkBoxCheck(1)">
+                    Channel 1
+                  </label>
+                </div>
+                <div class="column is-6">
+                  <label class="checkbox checkBoxText">
+                    <input type="checkbox" onclick="checkBoxCheck(2)">
+                    Channel 2
+                  </label>
+                </div>
+                <div class="column is-6">
+                  <label class="checkbox checkBoxText">
+                    <input type="checkbox" onclick="checkBoxCheck(3)">
+                    Channel 3
+                  </label>
+                </div>
+                <div class="column is-6">
+                  <label class="checkbox checkBoxText">
+                    <input type="checkbox" onclick="checkBoxCheck(4)">
+                    Channel 4
+                  </label>
+                </div>
+                <div class="column is-6">
+                  <label class="checkbox checkBoxText">
+                    <input type="checkbox" onclick="checkBoxCheck(5)">
+                    Channel 5
+                  </label>
+                </div>
+                <div class="column is-6">
+                  <label class="checkbox checkBoxText">
+                    <input type="checkbox" onclick="checkBoxCheck(6)">
+                    Channel 6
+                  </label>
+                </div>
+                <div class="column is-6">
+                  <label class="checkbox checkBoxText">
+                    <input type="checkbox" onclick="checkBoxCheck(7)">
+                    Channel 7
+                  </label>
+                </div>
+                <div class="column is-6">
+                  <label class="checkbox checkBoxText">
+                    <input type="checkbox" onclick="checkBoxCheck(8)">
+                    Channel 8
+                  </label>
+                </div>
+
+               </div>
+            </div>
+            <div class="column" id="graphColumn">
+
+              <progress id="loadingBar" style="display: none" class="progress is-small is-primary" max="100"></progress>
+
+              <Button class="button" id="getDataButton"onclick="getData()">Get Data</Button>
+              <span id="infoObject"></span>
+            </div>
+          </div>
+
+
+
+
+
+
 
     </div>
   </div>
@@ -27,12 +117,29 @@
 
 </div>
 
+<div class="columns is-gapless">
+  <div class="column has-text-centered">
+    <h5 id="shiftDragInfo" style="display: none;"class="title is-5">Use Shift + Drag to Pan</h5>
 
-  
+    <div id="myGraph"></div>
+  </div>
+  <div class="column is-narrow">
+    <div id="buttonsDiv"></div>
+  </div>
+</div>
+<div class="columns is-centered">
+  <div class="column is-6">
+    <Button id="zoomButton" style="display: none"class="button is-fullwidth" onclick="resetZoom()">Reset Zoom</Button>
+  </div>
+</div>
+<div id="labelsDiv"></div>
+
 </body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.2.1/chartjs-plugin-zoom.min.js" integrity="sha512-klQv6lz2YR+MecyFYMFRuU2eAl8IPRo6zHnsc9n142TJuJHS8CG0ix4Oq9na9ceeg1u5EkBfZsFcV3U7J51iew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.css" />
 <script src="{{url_for('static', filename='Graph.js')}}"></script>
 {% endblock %}

@@ -21,6 +21,7 @@ function Section(props) {
                     key={property}
                     property={property}
                     value={value}
+                    userLevel={props.userLevel}
                     keyHistory={props.keyHistory}
                     propertiesDB={props.propertiesDB}
                     scopesDB={props.scopesDB}
@@ -37,6 +38,7 @@ function Section(props) {
                     key={property}
                     property={property}
                     value={value}
+                    userLevel={props.userLevel}
                     keyHistory={props.keyHistory}
                     propertiesDB={props.propertiesDB}
                     scopesDB={props.scopesDB}

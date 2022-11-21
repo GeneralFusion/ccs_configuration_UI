@@ -1,6 +1,6 @@
 from urllib import request
 
-from flask import Flask, make_response,abort, send_from_directory, request, session, render_template, redirect, flash
+from flask import Flask, send_file,abort, send_from_directory, request, session, render_template, redirect, flash
 from flask_login import UserMixin, LoginManager, current_user, login_user, login_required, logout_user
 import os
 
@@ -28,12 +28,23 @@ directory = os.getcwd() + f'/{reactFolder}/build/static'
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '3043eb66-4f9f-4d16-a02f-a31fed11cae0'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
-app.config['GITHUB_CLIENT_ID'] = '161c62318fa3b687d4df'
-app.config['GITHUB_CLIENT_SECRET'] = '770009e9f42be603520c91d3b5b9b1e9c910a375'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:uv@database:3306/users'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+#Public IP one
+#app.config['GITHUB_CLIENT_ID'] = '161c62318fa3b687d4df'
+#app.config['GITHUB_CLIENT_SECRET'] = '770009e9f42be603520c91d3b5b9b1e9c910a375'
+
+#Local IP one
+app.config['GITHUB_CLIENT_ID'] = '6829544e92a4074b8434'
+app.config['GITHUB_CLIENT_SECRET'] = 'e28a5cb4f07cb2788e266442c232569720314081'
+
+#app.config['DEBUG'] = False
 db = SQLAlchemy(app)
 
 
+WRITEPERMISSIONLEVEL = 2 #Permission level required to write to repo from app
 
 
 github = GitHub(app)
@@ -53,9 +64,16 @@ class User(UserMixin, db.Model):
     githubName = db.Column(db.String(100))
     email = db.Column(db.String(100))
     isDarkMode = db.Column(db.Boolean())
+class RepoURL(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    url = db.Column(db.String(200))
 
-
-
+@app.route('/createDB')
+def createDB():
+    with app.app_context():
+        print("Creating Table")
+        db.create_all()
 @app.route('/getData/', methods=['GET','POST'])
 def getData():
     if request.method == 'GET':
@@ -64,28 +82,35 @@ def getData():
         except KeyError:
             currentClientNumber = '1'
         GitFunctions.pullRepo()
+
+       # USERLEVEL = current_user.permissionLevel
+        USERLEVEL = 5
         parsedYAML = ConfigFunctions.parseYAML('testConfig')
         clients = ConfigFunctions.getClients(parsedYAML, currentClientNumber)
         propertiesDB = ConfigFunctions.parseYAML('propertiesDB')
         scopesDB = ConfigFunctions.parseYAML('scopesDB')
-
-        print(clients)
+        #adminProperties = ConfigFunctions.getAdminProperties(parsedYAML, current_user.permissionLevel)
+        adminProperties = ConfigFunctions.getAdminProperties(parsedYAML, USERLEVEL)
+        print(adminProperties)
+        #print(clients)
         if(clients == {}):
             return {'Error':'Client not found'}, 512
-        return {'clients':clients,'propertiesDB':propertiesDB, 'scopesDB':scopesDB}, 200
+        return {'clients':clients,'adminProperties': adminProperties,'propertiesDB':propertiesDB, 'scopesDB':scopesDB, 'permissionLevel': USERLEVEL}, 200
+        #return {'clients':clients,'propertiesDB':propertiesDB, 'scopesDB':scopesDB, 'permissionLevel': current_user.permissionLevel}, 200
     if request.method == 'POST':
         (request.json)#???????????????????????????????????
-        if current_user.permissionLevel > 1:
+        if current_user.permissionLevel >= WRITEPERMISSIONLEVEL:
             print("Updated client:")
-            ConfigFunctions.saveClientsToFile('testConfig',request.json)
+            print(request.json)
+            ConfigFunctions.saveClientsToFile('testConfig',request.json['config'])
+            print(request.json['commitMessage'])
             #IF EVERYTHING GOOD
-            if saveRepo():
+            if saveRepo(request.json['commitMessage']):
                 return 'Sucess', 201
             return 'No GitHub access', 513 #Most likely email not provided
         return 'Not Authorized', 514 #Permission level insufficient 
 @app.route('/static/<folder>/<file>')#This function is neccesary to serve react 
 def css(folder,file):
-    ''' User will call with with thier id to store the symbol as registered'''
     
     path = folder+'/'+file
     return send_from_directory(directory=directory,path=path)
@@ -179,6 +204,7 @@ def authorized(oauth_token):
             print(org['id'])
             if org['id'] == 115666129:
                 foundGF = True
+                print("found GF Org")
                 break
         if foundGF:
             if(gUser['email'] is None):
@@ -186,7 +212,7 @@ def authorized(oauth_token):
             user = User(id=gUser['id'], name = gUser['name'] if gUser['name'] != None else gUser['login'], githubName=gUser['login'], email=gUser['email'], permissionLevel=1,isDarkMode=True) #Set name property of user to Github name, or the login if name is not set
             db.session.add(user)
         else:
-            return 'YOU ARE NOT ALLOWED HERE'
+            return render_template('noOrganization.html')
     db.session.commit()
     #Login the user (either gotten from database using 'query' or created)
 
@@ -226,11 +252,11 @@ def profileInfo():
 def graph():
     return render_template('graph.html')
 
-def saveRepo():
+def saveRepo(commitMessage):
   
     try:
         GitFunctions.updateCommitAuthor(name=current_user.name, email=current_user.email)
-        GitFunctions.updateRepo()
+        GitFunctions.updateRepo(commitMessage)
         return True
     except:
         print("Error pushing.")
@@ -241,13 +267,19 @@ def saveRepo():
 @login_required
 def getGraphData():
     #pointsAmount = 1000000
-
-    print("Sent Data")
-    print(request.args.get('min'))
-    print(request.args.get('max'))
     startIndex = int(request.args.get('min'))
     endIndex = int(request.args.get('max'))
-    return DataFunctions.getSampleData(startIndex=startIndex, endIndex=endIndex, amountOfPoints=100)
+    channels = request.args.getlist('channel')
+    amountOfPoints = 50_000
+    print(channels)
+    data = DataFunctions.getSampleData(startIndex=startIndex, endIndex=endIndex, amountOfPoints=amountOfPoints, channels=channels)
+    infoObject = {
+        'channels': channels,
+        'startIndex': startIndex,
+        'endIndex': endIndex,
+        'amountOfPoints': len(data)
+    }
+    return [data, infoObject]
 @app.route('/removeUser')
 @login_required
 def removeUser():
@@ -262,7 +294,7 @@ def removeUser():
 @login_required
 def adminPage():
     if not isAdmin(current_user) and current_user.githubName != 'uvkhosa':
-        return 'no.'
+        return render_template('adminNotAllowed.html')
     if request.method == 'POST':
         for i in request.form:
             print(i)
@@ -270,12 +302,9 @@ def adminPage():
             User.query.get(i).permissionLevel = request.form.get(i)
         db.session.commit()
         return redirect('/adminPage')
-
-        return redirect('/adminPage')
     if request.method == 'GET':
         users = User.query.all() 
         return render_template('adminPage.html', users=users)
-    return 'no.'
 def isAdmin(user):
     return user.permissionLevel > 3
 @app.route('/home')
@@ -286,4 +315,4 @@ def home():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(host="0.0.0.0",debug=True, threaded=True)
+    app.run(host="0.0.0.0", port=80,debug=True)

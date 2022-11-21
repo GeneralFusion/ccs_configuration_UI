@@ -27,6 +27,7 @@ function CollapsibleChanger(props) {
                             propertiesDB={props.propertiesDB}
                             keyHistory={props.keyHistory}
                             scopesDB={props.scopesDB}
+                            userLevel={props.userLevel}
                             scopeIndex={itemNumber}
                             onValueChange={sendChange}
                         ></ScopeChanger>
@@ -46,6 +47,7 @@ function CollapsibleChanger(props) {
                         keyHistory={props.keyHistory}
                         value={value}
                         propertiesDB={props.propertiesDB}
+                        userLevel={props.userLevel}
                         onValueChange={sendChange}
                     ></ValueChanger>
                 </AccordionDetails>
