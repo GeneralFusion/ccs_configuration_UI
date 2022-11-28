@@ -26,7 +26,7 @@ function ScopeChanger(props) {
 
     let channels = []
 
-    console.log(scopeProperties.current)
+    //console.log(scopeProperties.current)
 
     const typeDB = props.scopesDB[currentType]
     const saveChange = (newValue) => {
@@ -44,8 +44,8 @@ function ScopeChanger(props) {
         }
         tempObj[keyHistory[keyHistoryLength - 1]] = newValue[1]
         console.log(scopeProperties.current)
-        setAddingChannel(!addingChannel)//SINCE CHANGING A PROPERTY CAN HAVE EFFECTS ON OTHERS, REFRESH EVERYTHING
         sendChanges()
+        setAddingChannel(!addingChannel)//SINCE CHANGING A PROPERTY CAN HAVE EFFECTS ON OTHERS, REFRESH EVERYTHING
     }
     const sendChanges = () => {
         console.log(scopeProperties.current)
@@ -112,9 +112,9 @@ function ScopeChanger(props) {
         saveChange(newName)
     }
     const channelCopy = ([channelsExpression, channelNumber]) => {
+        const baseChannel = scopeProperties.current['channelsConfigSettings'][channelNumber]
         console.log(`Channel: ${channelsExpression}, # ${channelNumber}`)
         const copyToChannel =(cNum) => {
-            console.log(cNum)
             if(!scopeProperties.current['activeChannels'].includes(cNum)){
                 channelUpdate(cNum)
             }
@@ -127,25 +127,30 @@ function ScopeChanger(props) {
                 console.log(`key: ${key} value ${value}`)
             }
         }
-        const baseChannel = scopeProperties.current['channelsConfigSettings'][channelNumber]
-        for(let channel of channelsExpression.split(',')){
-            if(channel === channelNumber){
-                continue
-            }
-            if(channel.includes('-')){
-                const [minChannel, maxChannel] = channel.split('-')
-                for(let channelCounter = minChannel; channelCounter <= maxChannel; channelCounter++){
-                    copyToChannel(parseInt(channelCounter))
-                }
-            }
-            else{
-                copyToChannel(parseInt(channel))
-            }
- 
- 
-            
+        console.log(channelsExpression)
 
+        const reducedChannels = channelsExpression.filter(channel => channel > 0 && (channel <= typeDB['maxChannels'] || currentType === 'dtacq')) // Only keep channels > 0 and (< maxChannels IF scope is not dtacq)
+        console.log(reducedChannels)
+        for(let channelIndex of reducedChannels){
+            console.log(reducedChannels)
+            if(channelIndex != channelNumber){
+                copyToChannel(channelIndex)
+            }
         }
+        // for(let channel of channelsExpression.split(',')){
+        //     if(channel === channelNumber){
+        //         continue
+        //     }
+        //     if(channel.includes('-')){
+        //         const [minChannel, maxChannel] = channel.split('-')
+        //         for(let channelCounter = minChannel; channelCounter <= maxChannel; channelCounter++){
+        //             copyToChannel(parseInt(channelCounter))
+        //         }
+        //     }
+        //     else{
+        //         copyToChannel(parseInt(channel))
+        //     }
+        //}
         console.log(scopeProperties.current)
         setAddingChannel(!addingChannel)
     }
@@ -197,6 +202,7 @@ function ScopeChanger(props) {
                     value={channelValue}
                     setDefaults={false}
                     channelNumber={channelIndex}
+                    isDisabled={props.isDisabled}
                     isActive={isActive}
                     keyHistory={[...newKeyHistory, 'channelsConfigSettings', channelIndex]}
                     propertiesDB={getChannelOptions(channelIndex)}
@@ -208,7 +214,7 @@ function ScopeChanger(props) {
         )
         
     }
-    console.log(scopeProperties.current)
+    console.log(`Scope disabled: ${props.isDisabled}`)
     //childKey++;
     return (
         <Grid container columns={16} spacing={1} sx={{ px: 1 }} >
@@ -218,6 +224,7 @@ function ScopeChanger(props) {
                     property={'connectionString'}
                     value={properties['connectionString']}
                     keyHistory={newKeyHistory}
+                    isDisabled={props.isDisabled}
                     propertiesDB={props.propertiesDB}
                     userLevel={props.userLevel}
                     onValueChange={saveChange}
@@ -389,7 +396,7 @@ function ScopeChanger(props) {
                 </ImageList>
             </Grid>
             <Grid md={16} xs={16}>
-                <Button sx={{fontSize: '1em', mr: 1}} variant="contained" onClick={sendChanges}>
+                <Button sx={{fontSize: '1em', mr: 1}} variant="contained" onClick={sendChanges} disabled={props.isDisabled}>
                     Save Scope
                 </Button>
                 {/* <Button disabled={currentType === 'dtacq' ? false : true} sx={{mx: 1}}variant="contained" onClick={addChannel}>

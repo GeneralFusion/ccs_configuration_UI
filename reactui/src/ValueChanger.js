@@ -60,7 +60,7 @@ function ValueChanger(props) {
 
 function createValueChanger(props) {
     const sendChange = (newValue) => {
-        console.log(newValue)
+        //console.log(newValue)
         props.onValueChange(newValue)
     }
     const getOptions = (property) => {
@@ -69,9 +69,10 @@ function createValueChanger(props) {
     let valueChangerComponent
     let isLarge = false
     const componentType = props.propertiesDB[props.property]['type']
+    //console.log(props.keyHistory)
     const newKeyHistory = [...props.keyHistory, props.property]
-    const levelTooLow = props.userLevel < props.propertiesDB[props.property]['permission']
-
+    const levelTooLow = props.userLevel < 2 || props.userLevel < props.propertiesDB[props.property]['permission']
+    //console.log(newKeyHistory)
     switch (
         componentType //THIS WILL BE THE LOOKUP TABLE
     ) {
@@ -165,7 +166,8 @@ function createValueChanger(props) {
             )
             isLarge = true
             break
-        case 'scope':
+        case 'scope'://Most likely never used.
+            console.log(`making scope disbaled ${levelTooLow}`)
             isLarge = true
             valueChangerComponent = (
                 <ScopeChanger

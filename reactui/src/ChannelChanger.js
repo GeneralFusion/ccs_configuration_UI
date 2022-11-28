@@ -21,6 +21,7 @@ function ChannelChanger(props) {
     const properties = props.value
     const theme = useTheme()
     let c
+    console.log(`Disabled ${props.isDisabled}`)
     const sendChange = (newValue) => {
         props.onValueChange(newValue)
     }
@@ -28,14 +29,35 @@ function ChannelChanger(props) {
         channelCopyText.current = e.target.value
     }
     const sendChannelCopy = () => {
-        const data = [channelCopyText.current, props.keyHistory[props.keyHistory.length - 1]]
+       // const data = [channelCopyText.current, props.keyHistory[props.keyHistory.length - 1]]
         //USE A SET TO MAKE SURE NO DUPLICATE CHANNELS. Just convert all the channels to csv right here. 
        
         if(/[^\d,-]/gm.test(channelCopyText.current)){
             setErrorText("Invalid input")
         }
         else{
-            props.onChannelCopy(data)
+            let cRange = []
+            let x = channelCopyText.current.split(',')
+            for(let c of x){
+                let trimmedChannel = c.trim()
+                if(trimmedChannel === ''){
+                    continue
+                }
+                if(trimmedChannel.includes('-')){
+          
+                    const ranges = trimmedChannel.split('-')
+                    const start = parseInt(ranges[0])
+                    const end = parseInt(ranges[ranges.length - 1])
+                    for(let i = start; i <= end; i++){
+                        cRange.push(i)
+                    }
+                }
+                else{
+                    cRange.push(parseInt(trimmedChannel))
+                }
+            }
+            const finalChannels = [...new Set(cRange)] 
+            props.onChannelCopy([finalChannels, props.keyHistory[props.keyHistory.length - 1]])
         }
     }
     const handleChange = () => {
@@ -74,7 +96,7 @@ function ChannelChanger(props) {
     <Grid xs={12} md={6}>
         <ValueChanger
             property={'name'}
-            isDisabled={false}
+            isDisabled={props.isDisabled}
             value={properties[typeDB['name']['name']]}
             keyHistory={props.keyHistory}
             propertiesDB={typeDB}
@@ -84,7 +106,7 @@ function ChannelChanger(props) {
     <Grid xs={12} md={6}>
         <ValueChanger
             property={'coupling'}
-            isDisabled={false}
+            isDisabled={props.isDisabled}
             value={properties[typeDB['coupling']['name']]}
             keyHistory={props.keyHistory}
             propertiesDB={typeDB}
@@ -94,7 +116,7 @@ function ChannelChanger(props) {
     <Grid xs={12} md={6}>
         <ValueChanger
             property={'bwLimit'}
-            isDisabled={false}
+            isDisabled={props.isDisabled}
             value={properties[typeDB['bwLimit']['name']]}
             keyHistory={props.keyHistory}
             propertiesDB={typeDB}
@@ -104,7 +126,7 @@ function ChannelChanger(props) {
     <Grid xs={12} md={6}>
         <ValueChanger
             property={'probe'}
-            isDisabled={false}
+            isDisabled={props.isDisabled}
             value={properties[typeDB['probe']['name']]}
             keyHistory={props.keyHistory}
             propertiesDB={typeDB}
@@ -114,7 +136,7 @@ function ChannelChanger(props) {
     <Grid xs={12} md={6}>
         <ValueChanger
             property={'tdiv'}
-            isDisabled={false}
+            isDisabled={props.isDisabled}
             value={properties[typeDB['tdiv']['name']]}
             keyHistory={props.keyHistory}
             propertiesDB={typeDB}
@@ -124,7 +146,7 @@ function ChannelChanger(props) {
     <Grid xs={12} md={6}>
         <ValueChanger
             property={'timeOffset'}
-            isDisabled={false}
+            isDisabled={props.isDisabled}
             value={ properties[typeDB['timeOffset']['name']]}
             keyHistory={props.keyHistory}
             propertiesDB={typeDB}
@@ -134,7 +156,7 @@ function ChannelChanger(props) {
     <Grid xs={12} md={6}>
         <ValueChanger
             property={'vdiv'}
-            isDisabled={false}
+            isDisabled={props.isDisabled}
             value={properties[typeDB['vdiv']['name']]}
             keyHistory={props.keyHistory}
             propertiesDB={typeDB}
@@ -144,7 +166,7 @@ function ChannelChanger(props) {
     <Grid xs={12} md={6}>
         <ValueChanger
             property={'voltageOffset'}
-            isDisabled={false}
+            isDisabled={props.isDisabled}
             value={properties[typeDB['voltageOffset']['name']]}
             keyHistory={props.keyHistory}
             propertiesDB={props.propertiesDB}
@@ -153,6 +175,7 @@ function ChannelChanger(props) {
     </Grid>
     <Grid xs={12} md={12}>
         <Button
+            disabled={props.isDisabled}
             variant="contained"
             sx={{
                 ':hover': { background: theme.palette.primary.dark },

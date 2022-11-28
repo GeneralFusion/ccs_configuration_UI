@@ -1,19 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import MuiInput from '@mui/material/Input'
 import TextField from '@mui/material/TextField'
 import Slider from '@mui/material/Slider'
 
 function SliderChanger(props) {//somehow helper text goes away right away after clicking away
-    
+    const handleChangeTimeout = useRef();
     const [errorText, setErrorText] = useState(null)
     const [value, setValue] = useState(Number(props.value))
     const options = props.options
     useEffect(()=>{setValue(valueValid(value))},[])
     const sendChange = () => {
+        console.log(props.keyHistory)
         props.onValueChange([props.keyHistory, value])
     }
     const handleChange = (event, newValue) => {
-        setValue(event.target.value === '' ? '' : valueValid(Number(event.target.value)))
+        // const v = valueValid(event.target.value)
+        setValue(event.target.value)
+        //valueValid(event.target.value)
+        // clearTimeout(handleChangeTimeout.current)
+        // handleChangeTimeout.current = setTimeout(props.onValueChange, 1200, [props.keyHistory, v])
         
     }
     function valueValid(v){//CHECK IF VALUE IS ALLOWED ACCORDING TO OPTIONS
@@ -34,7 +39,7 @@ function SliderChanger(props) {//somehow helper text goes away right away after 
             if(finalNumber !== tempValue){
                 console.log("Changed value with steps")
                 // setIsError(true)
-                setErrorText("Invalid Increment")
+                setErrorText("Validated")
             }
             else{
                 setErrorText('')

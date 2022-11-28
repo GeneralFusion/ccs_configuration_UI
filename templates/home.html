@@ -1,8 +1,32 @@
 {%extends 'base.html'%}
     {%block content%}
-   <body>
+   <style>
+    .collapsed{
+        max-height: 0px; 
+        margin-top: 0px;
+        overflow: hidden;
+        transition: 0.3s max-height ease-in-out;
+        transition: 0.3s margin-top ease-out;
+    }
+    .uncollapsed{
+        margin-top: 10px;
+        max-height: 1000px;
+    }
+   </style>
+    <body>
+    
+      <script>
+        function expandScopes(){
+            const scopes = document.getElementById('scopes')
+            if(scopes.classList.contains('uncollapsed')){
+                scopes.classList.remove('uncollapsed')
+            }
+            else{
+                scopes.classList.add('uncollapsed')                
+            }
 
-      
+        }
+      </script>
       {% with messages = get_flashed_messages() %}
       {% if messages %}
           <div class="notification is-danger">
@@ -12,25 +36,27 @@
     {% endwith %}
           <div class="columns is-centered">
             <div class="column is-10">
-                <div class="box has-text-centered">
+                <div class="has-text-centered">
                     <div class="columns">
                         <div class="column">
-    
-        
-                                        <a class="button is-primary" href="/app">Scopes</a>
-                                        <hr>
-                                        <a class="button is-small is-normal" href="/currentClient/1"">Pi3</a>
-                                        <a class="button is-small is-normal" href="/currentClient/2">Pi3 Puff</a>
-                                        <a class="button is-small is-normal" href="">SliC</a>
-        
-                                
-                                  
+                            <div class="box">
+                                <a class="button is-primary is-large" onclick="expandScopes()">Scopes</a>
+                                <div id="scopes" class="collapsed">
+                                    <a class="button is-small is-normal" href="/currentClient/1"">Pi3</a>
+                                    <a class="button is-small is-normal" href="/currentClient/2">Pi3 Puff</a>
+                                    <a class="button is-small is-normal" href="">SliC</a>
+                                </div>
+                            </div>
                         </div>
                         <div class="column">
-                                <a class="button is-primary" href="/app">Hardware Config</a>
+                            <div class="box">
+                                <a class="button is-primary is-large" href="/app">Hardware Config</a>
+                            </div>
                         </div>
                         <div class="column">
-                                <a class="button is-primary " href="/app">Recipies</a>
+                            <div class="box">
+                                <a class="button is-primary is-large" href="/app">Recipies</a>
+                            </div>
                         </div>
                   
         

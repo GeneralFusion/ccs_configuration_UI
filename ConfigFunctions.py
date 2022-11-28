@@ -29,12 +29,15 @@ def parseYAML(file):
             print("error")
     return loadedYAML#Add checking for clientNUmber
 
-def saveClientsToFile(file,newClients):
+def saveClientsToFile(file,newClients, adminProperties):
     fileURL = file + '.yml'
     fileLoc = str(CONFIGURL / fileURL)
     #Best way is to go and edit the YAML file directly instead of reloading it and editing
     currentYAML = parseYAML(file)
     currentYAML['clients'] |= newClients # '|' is Dictionary update operator
+    for adminKey, adminValue in adminProperties.items():
+        currentYAML[adminKey] |= adminValue
+    print(adminProperties)
     with open(fileLoc, 'w') as file:#Use Regex to add '---'
         documents = dump(currentYAML, file)
  

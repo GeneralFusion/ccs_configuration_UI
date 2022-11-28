@@ -40,23 +40,43 @@ function Controller(props) {
         await initController()
     },[])
 
-    const changeValue = ([clientNumber, [keyHistory, newValue]]) => {
+    const changeValue = (sendValue) => {
         //Array destructuring. Will take the array of property and value and make it into two variables.
-        if(clientNumber === -1){
-            console.log("admin property")
-            return 
+        if(!Array.isArray(sendValue[1])){
+            const [keyHistory,  newValue] = sendValue
+            let c = adminPropertiesConfig
+            console.log(c)
+            console.log(keyHistory)
+            for (let i = 0; i < keyHistory.length - 1; i++) {
+                //Go through keyhistory (except last one). Now client is pointing to the last object which is the {proprety: value}.
+                console.log(`obj: ${c} | key: ${keyHistory[i]}`)
+                c = c[keyHistory[i]]
+                
+            }
+            c[keyHistory[keyHistory.length - 1]] = newValue
         }
-        let client = clientsConfig[clientNumber]
-        //console.log(client);
-        console.log(keyHistory)
-        console.log(newValue)
-        for (let i = 0; i < keyHistory.length - 1; i++) {
-            //Go through keyhistory (except last one). Now client is pointing to the last object which is the {proprety: value}.
-            client = client[keyHistory[i]]
+        else{
+            const [clientNumber, [keyHistory, newValue]]= sendValue
+            if(clientNumber === -1){
+                console.log("admin property")
+                console.log(`Client#: ${clientNumber}`)
+                console.log(keyHistory)
+                console.log(`new value: ${newValue}`)
+
+                return 
+            }
+            let client = clientsConfig[clientNumber]
+            //console.log(client);
+            console.log(keyHistory)
+            console.log(newValue)
+            for (let i = 0; i < keyHistory.length - 1; i++) {
+                //Go through keyhistory (except last one). Now client is pointing to the last object which is the {proprety: value}.
+                client = client[keyHistory[i]]
+            }
+            client[keyHistory[keyHistory.length - 1]] = newValue
+            //     console.log(client);
+            console.log(clientsConfig)
         }
-        client[keyHistory[keyHistory.length - 1]] = newValue
-        //     console.log(client);
-        console.log(clientsConfig)
     }
     const generateClients = (json, propertiesDB, scopesDB, userLevel) => {
         let tempArray = []
@@ -84,7 +104,7 @@ function Controller(props) {
             tempAdminProperties.push(
                 <ValueChanger
                 property={property}
-                keyHistory={[-1, []]}
+                keyHistory={[]}
                 value={value}
                 userLevel={userLevel}
                 propertiesDB={propertiesDB}
@@ -117,6 +137,7 @@ function Controller(props) {
         }
         
         clientsConfig = data['clients']
+        adminPropertiesConfig = data['adminProperties']
 
         let tempClients = generateClients(data['clients'], propertiesDB, scopesDB, userLevel) //Properties DB seems to be passes by reference
         setClients(tempClients)
@@ -129,7 +150,7 @@ function Controller(props) {
             const resp = await fetch(`/getData/`, {//Send new config to server
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({config: clientsConfig, commitMessage: commitMessage})
+                body: JSON.stringify({config: clientsConfig, adminConfig: adminPropertiesConfig,commitMessage: commitMessage})
                 ,
             })
             console.log(resp)

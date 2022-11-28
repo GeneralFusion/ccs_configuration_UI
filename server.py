@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 from flask_github import GitHub
-import ConfigFunctions, DataFunctions, GitFunctions
+import ConfigFunctions, GitFunctions
 
 '''
 TODO 
@@ -83,8 +83,8 @@ def getData():
             currentClientNumber = '1'
         GitFunctions.pullRepo()
 
-       # USERLEVEL = current_user.permissionLevel
-        USERLEVEL = 5
+        USERLEVEL = current_user.permissionLevel
+     
         parsedYAML = ConfigFunctions.parseYAML('testConfig')
         clients = ConfigFunctions.getClients(parsedYAML, currentClientNumber)
         propertiesDB = ConfigFunctions.parseYAML('propertiesDB')
@@ -102,7 +102,7 @@ def getData():
         if current_user.permissionLevel >= WRITEPERMISSIONLEVEL:
             print("Updated client:")
             print(request.json)
-            ConfigFunctions.saveClientsToFile('testConfig',request.json['config'])
+            ConfigFunctions.saveClientsToFile('testConfig',request.json['config'], request.json['adminConfig'])
             print(request.json['commitMessage'])
             #IF EVERYTHING GOOD
             if saveRepo(request.json['commitMessage']):
@@ -149,7 +149,7 @@ def register():
 
 @app.route('/')#redirect to login 
 def index():
-    return redirect('/login')
+    return render_template('/landingPage.html')
 
 @app.route('/login', methods=['GET', 'POST'])#Post method will be removed
 def login():
@@ -263,23 +263,23 @@ def saveRepo(commitMessage):
 
     return False   
 
-@app.route('/getGraphData')
-@login_required
-def getGraphData():
-    #pointsAmount = 1000000
-    startIndex = int(request.args.get('min'))
-    endIndex = int(request.args.get('max'))
-    channels = request.args.getlist('channel')
-    amountOfPoints = 50_000
-    print(channels)
-    data = DataFunctions.getSampleData(startIndex=startIndex, endIndex=endIndex, amountOfPoints=amountOfPoints, channels=channels)
-    infoObject = {
-        'channels': channels,
-        'startIndex': startIndex,
-        'endIndex': endIndex,
-        'amountOfPoints': len(data)
-    }
-    return [data, infoObject]
+# @app.route('/getGraphData')
+# @login_required
+# def getGraphData():
+#     #pointsAmount = 1000000
+#     startIndex = int(request.args.get('min'))
+#     endIndex = int(request.args.get('max'))
+#     channels = request.args.getlist('channel')
+#     amountOfPoints = 50_000
+#     print(channels)
+#     data = DataFunctions.getSampleData(startIndex=startIndex, endIndex=endIndex, amountOfPoints=amountOfPoints, channels=channels)
+#     infoObject = {
+#         'channels': channels,
+#         'startIndex': startIndex,
+#         'endIndex': endIndex,
+#         'amountOfPoints': len(data)
+#     }
+#     return [data, infoObject]
 @app.route('/removeUser')
 @login_required
 def removeUser():
@@ -315,4 +315,4 @@ def home():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(host="0.0.0.0", port=80,debug=True)
+    app.run(host="0.0.0.0", port=80)

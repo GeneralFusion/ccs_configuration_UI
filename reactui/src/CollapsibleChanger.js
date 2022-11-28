@@ -14,7 +14,7 @@ function CollapsibleChanger(props) {
         setRefresh(!refresh);//May need to check if value changed was name
         props.onValueChange(newValue)
     }
-    console.log(props.scopesDB)
+
     let items = []
     if(props.property == 'Scopes'){
         for (const [itemNumber, itemValue] of Object.entries(props.value)) {
@@ -25,6 +25,7 @@ function CollapsibleChanger(props) {
                         <ScopeChanger
                             value={itemValue}
                             propertiesDB={props.propertiesDB}
+                            isDisabled={props.isDisabled}
                             keyHistory={props.keyHistory}
                             scopesDB={props.scopesDB}
                             userLevel={props.userLevel}
