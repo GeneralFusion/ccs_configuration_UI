@@ -17,8 +17,8 @@ function SliderChanger(props) {//somehow helper text goes away right away after 
         // const v = valueValid(event.target.value)
         setValue(event.target.value)
         //valueValid(event.target.value)
-        // clearTimeout(handleChangeTimeout.current)
-        // handleChangeTimeout.current = setTimeout(props.onValueChange, 1200, [props.keyHistory, v])
+        clearTimeout(handleChangeTimeout.current)
+        handleChangeTimeout.current = setTimeout(props.onValueChange, 1200, [props.keyHistory, event.target.value])
         
     }
     function valueValid(v){//CHECK IF VALUE IS ALLOWED ACCORDING TO OPTIONS
