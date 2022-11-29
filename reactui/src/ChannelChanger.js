@@ -21,7 +21,7 @@ function ChannelChanger(props) {
     const properties = props.value
     const theme = useTheme()
     let c
-    console.log(`Disabled ${props.isDisabled}`)
+    //console.log(`Disabled ${props.isDisabled}`)
     const sendChange = (newValue) => {
         props.onValueChange(newValue)
     }
@@ -294,6 +294,7 @@ function ChannelChanger(props) {
     <Grid xs={12} md={12}>
         <Button
             variant="contained"
+            disabled={props.isDisabled}
             sx={{
                 ':hover': { background: theme.palette.primary.dark },
                 background: isConfirmed ? theme.status.warning :theme.status.disable ,

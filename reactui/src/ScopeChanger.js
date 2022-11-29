@@ -30,7 +30,7 @@ function ScopeChanger(props) {
 
     const typeDB = props.scopesDB[currentType]
     const saveChange = (newValue) => {
-        console.log(newValue)
+        //console.log(newValue)
         const keyHistory = newValue[0]
         const keyHistoryLength = keyHistory.length
         let firstIndex = keyHistoryLength - 1
@@ -43,17 +43,17 @@ function ScopeChanger(props) {
             tempObj = tempObj[keyHistory[i]]
         }
         tempObj[keyHistory[keyHistoryLength - 1]] = newValue[1]
-        console.log(scopeProperties.current)
+        //console.log(scopeProperties.current)
         sendChanges()
         setAddingChannel(!addingChannel)//SINCE CHANGING A PROPERTY CAN HAVE EFFECTS ON OTHERS, REFRESH EVERYTHING
     }
     const sendChanges = () => {
-        console.log(scopeProperties.current)
+        //console.log(scopeProperties.current)
         props.onValueChange([[...props.keyHistory, props.scopeIndex], scopeProperties.current])
     }
     const changeScopeType = (newType) => {
         setDefaults.current = true
-        console.log(`${currentType} | ${newType[1]}`)//[1] since first part is keyHistory
+        //console.log(`${currentType} | ${newType[1]}`)//[1] since first part is keyHistory
 
         setCurrentType(newType[1])
         //saveChange(newType);
@@ -64,12 +64,12 @@ function ScopeChanger(props) {
         for (const [,value] of Object.entries(typeDB['channelProperties'])) {
             returnChannel[value['name']] = value['defaultValue']
         }
-        console.log(returnChannel)
+        //console.log(returnChannel)
         return returnChannel
     }
     const channelUpdate = (channel) => {
         if (!scopeProperties.current['activeChannels'].includes(channel)) {
-            console.log('Channel not enabled currently')
+            //console.log('Channel not enabled currently')
             scopeProperties.current['activeChannels'].push(channel)
             scopeProperties.current['channelsConfigSettings'][channel] = getDefaultChannel()
         } else {
@@ -84,10 +84,10 @@ function ScopeChanger(props) {
         for(let i = 0; i < amountOfChannels; i++){
             const newChannelNumber = scopeProperties.current['activeChannels'].length > 0 ? scopeProperties.current['activeChannels'][scopeProperties.current['activeChannels'].length - 1] + 1 : 1
             channelUpdate(newChannelNumber)
-            setAddingChannel(!addingChannel)
+            
         }
-
-        console.log(scopeProperties.current)
+        setAddingChannel(!addingChannel)
+        //(scopeProperties.current)
     }
     const removeChannel = (amountOfChannels) => {
         const activeChannelsRef = scopeProperties.current['activeChannels']
@@ -106,14 +106,14 @@ function ScopeChanger(props) {
             //setAddingChannel(!addingChannel)
         }
         setAddingChannel(!addingChannel)
-        console.log(scopeProperties.current['activeChannels'])
+        //console.log(scopeProperties.current['activeChannels'])
     }
     const nameUpdates = (newName) => {
         saveChange(newName)
     }
     const channelCopy = ([channelsExpression, channelNumber]) => {
         const baseChannel = scopeProperties.current['channelsConfigSettings'][channelNumber]
-        console.log(`Channel: ${channelsExpression}, # ${channelNumber}`)
+        //console.log(`Channel: ${channelsExpression}, # ${channelNumber}`)
         const copyToChannel =(cNum) => {
             if(!scopeProperties.current['activeChannels'].includes(cNum)){
                 channelUpdate(cNum)
@@ -124,19 +124,21 @@ function ScopeChanger(props) {
                     continue
                 }
                 targetChannel[key] = value
-                console.log(`key: ${key} value ${value}`)
+                //console.log(`key: ${key} value ${value}`)
             }
         }
-        console.log(channelsExpression)
+        //console.log(channelsExpression)
 
         const reducedChannels = channelsExpression.filter(channel => channel > 0 && (channel <= typeDB['maxChannels'] || currentType === 'dtacq')) // Only keep channels > 0 and (< maxChannels IF scope is not dtacq)
-        console.log(reducedChannels)
+       // console.log(reducedChannels)
         for(let channelIndex of reducedChannels){
-            console.log(reducedChannels)
-            if(channelIndex != channelNumber){
+            //console.log(reducedChannels)
+            if(channelIndex !== channelNumber){
                 copyToChannel(channelIndex)
             }
         }
+        setAddingChannel(!addingChannel)
+
         // for(let channel of channelsExpression.split(',')){
         //     if(channel === channelNumber){
         //         continue
@@ -151,15 +153,14 @@ function ScopeChanger(props) {
         //         copyToChannel(parseInt(channel))
         //     }
         //}
-        console.log(scopeProperties.current)
-        setAddingChannel(!addingChannel)
+       // console.log(scopeProperties.current)
     }
     const getChannelOptions = (channelNumber) => {//GET DYNAMIC PROPERTY OPTIONS
         let optionObject = {}
-        console.log("GETTING CHANNEL OPTIONS for " + channelNumber)
+       // console.log("GETTING CHANNEL OPTIONS for " + channelNumber)
         for(const [key, value] of Object.entries(typeDB['channelProperties'])){
             if(value['dynamic'] === true){//IS DYNAMIC
-                console.log(key + ' : dynamic' )
+                //console.log(key + ' : dynamic' )
                 let dynamicOption = JSON.parse(JSON.stringify(value))
                 for(const [optionsKey, optionsValue] of Object.entries(dynamicOption['options'])){
                     if(isNaN(Number(optionsValue))){
@@ -193,7 +194,7 @@ function ScopeChanger(props) {
         return optionObject
     }
 
-    for (let channelIndex = 1; channelIndex <= (currentType === 'dtacq' ? scopeProperties.current['activeChannels'][scopeProperties.current['activeChannels'].length - 1] : typeDB['maxChannels']); channelIndex++) {
+    for (let channelIndex = 1; channelIndex <= (currentType === 'dtacq' ? Math.max(...scopeProperties.current['activeChannels']) : typeDB['maxChannels']); channelIndex++) {
         let isActive = scopeProperties.current['activeChannels'].includes(channelIndex)
         let channelValue = isActive ? scopeProperties.current['channelsConfigSettings'][channelIndex] : getDefaultChannel()
         channels.push(
@@ -214,7 +215,7 @@ function ScopeChanger(props) {
         )
         
     }
-    console.log(`Scope disabled: ${props.isDisabled}`)
+    //console.log(`Scope disabled: ${props.isDisabled}`)
     //childKey++;
     return (
         <Grid container columns={16} spacing={1} sx={{ px: 1 }} >
