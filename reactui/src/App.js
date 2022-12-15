@@ -1,8 +1,7 @@
 import * as React from 'react';
 import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
 import Controller from './Controller.js';
-import { ThemeProvider, createTheme, makeStyles } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
 
@@ -91,7 +90,7 @@ export default function App() {
           }
         })
 
-    fetch('/profileInfo').then(res => {
+    fetch('/ccs_ui/profileInfo').then(res => {
       res.json().then(isDarkMode => {
         setMode(isDarkMode.isDarkMode ? 'dark' : 'light')
       })

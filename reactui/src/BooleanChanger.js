@@ -8,7 +8,6 @@ function BooleanChanger(props) {
         //Use opposite since its a switch
         props.onValueChange([props.keyHistory, !value])
     }
-
     const handleChange = (event, newValue) => {
         setValue(newValue)
         sendChange()

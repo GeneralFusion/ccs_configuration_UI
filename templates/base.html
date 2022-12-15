@@ -27,8 +27,8 @@
     <body>
         <nav class="navbar" style="margin-bottom: 1.5em" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-              <a class="navbar-item" href="/">
-                <img src="{{url_for('static', filename='gfLogo.png')}}">
+              <a class="navbar-item" href="/ccs_ui/">
+                <img src="/ccs_ui{{url_for('static', filename='gfLogo.png')}}">
               </a>
           
               <a role="button" id="navbarBurgerButton" class="navbar-burger" aria-label="menu" onclick="toggleBurger()" aria-expanded="false" data-target="AppNavBar">
@@ -40,7 +40,7 @@
           
             <div id="AppNavBar" class="navbar-menu">
               <div class="navbar-start">
-                <a class="navbar-item" href="/home">
+                <a class="navbar-item" href="/ccs_ui/home">
                   Home
                 </a>
           
@@ -52,7 +52,7 @@
                   </a>
           
                   <div class="navbar-dropdown">
-                    <a class="navbar-item" href="/profile">
+                    <a class="navbar-item" href="/ccs_ui/profile">
                       Profile
                     </a>
                   </div>
@@ -63,7 +63,7 @@
               <div class="navbar-end">
                 <div class="navbar-item">
                   <div class="buttons">
-                    <a class="button is-light" href="/logout">
+                    <a class="button is-light" href="/ccs_ui/logout">
                       Log out
                     </a>
                   </div>

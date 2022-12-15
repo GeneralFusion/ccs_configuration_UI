@@ -7,7 +7,7 @@
             <h1 class="title is-1">
               Repository Properties
             </h1>
-            <form action="/setRepo" method="post">
+            <form action="/ccs_ui/setRepo" method="post">
               <div class="field">
                 <label class="label" for = "CCSRepo">CCS Repository URL</label>
                 <input class="input" type = "text" name = "CCSRepo" placeholder = "CCSRepo" />
@@ -25,7 +25,7 @@
                     <h1 class="title is-1">Users</h1>
                 </div>
             </div>
-            <form action="{{ request.path }}" method="post">
+            <form action="/ccs_ui{{ request.path }}" method="post">
             <div class="columns is-multiline">
                 {% for user in users%} 
           <div class="column is-2 has-text-centered">
@@ -78,7 +78,7 @@
           const openModal = (name, id) => {
             console.log(name);
             document.getElementById("userToRemove").innerHTML = name
-            document.getElementById("userRemoveButton").href = "/removeUser?id=" + id
+            document.getElementById("userRemoveButton").href = "/ccs_ui/removeUser?id=" + id
             
             document.getElementById("deleteUserModal").classList.add('is-active');
           }

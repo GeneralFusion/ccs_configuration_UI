@@ -39,10 +39,10 @@
             opacity: 1;
         }
         .dial{
-            background-image: url("{{url_for('static', filename='dial.svg')}}");
+            background-image: url("/ccs_ui{{url_for('static', filename='dial.svg')}}");
         }
         .lineChart{
-            background-image: url("{{url_for('static', filename='linechart.svg')}}");
+            background-image: url("/ccs_ui{{url_for('static', filename='linechart.svg')}}");
         }
         .titleText{
             font-family: "Arial Black", Gadget, sans-serif;
@@ -71,7 +71,7 @@
     <div class="columns mt-5">
         <div class="column is-half">
             <!-- Maybe make this href to some url in this app then redirect -->
-            <a href="http://127.0.0.1:5000">
+            <a href="http://aurora/graphing_util">
             
                 <div class="box has-text-centered backgroundBox lineChart" >
                     <div>
@@ -82,7 +82,7 @@
 
     </div>
         <div class="column is-half">
-            <a href="/login">            
+            <a href="/ccs_ui/{{url_for('login')}}">            
                 <div class="box has-text-centered backgroundBox dial">
                     <div>
                         <h1 class="titleText">CCS Controls</h1>

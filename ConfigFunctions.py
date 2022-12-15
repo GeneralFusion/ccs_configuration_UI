@@ -35,8 +35,9 @@ def saveClientsToFile(file,newClients, adminProperties):
     #Best way is to go and edit the YAML file directly instead of reloading it and editing
     currentYAML = parseYAML(file)
     currentYAML['clients'] |= newClients # '|' is Dictionary update operator
-    for adminKey, adminValue in adminProperties.items():
-        currentYAML[adminKey] |= adminValue
+    if adminProperties is not None:
+        for adminKey, adminValue in adminProperties.items():
+            currentYAML[adminKey] |= adminValue
     print(adminProperties)
     with open(fileLoc, 'w') as file:#Use Regex to add '---'
         documents = dump(currentYAML, file)

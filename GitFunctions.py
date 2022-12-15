@@ -10,7 +10,10 @@ ADDFILESCMD = ["git", "-C", REPOURL, "add", "."]
 COMMITCMD = ["git", "-C", REPOURL, "commit", "-m"]
 PUSHCMD = ["git", "-C", REPOURL, "push"]
 PULLCMD = ["git", "-C", REPOURL, "pull"]
+PULLCONFIG = ["git", "-C", REPOURL, "config", "pull.ff", "only"]
 RESETCMD = ["git", "-C", REPOURL, "reset", "--hard", "HEAD"]
+
+
 def updateCommitAuthor(name, email):
     subprocess.check_call(["git","-C", REPOURL, "config", "user.name", name])
     subprocess.check_call(["git","-C", REPOURL, "config", "user.email", email])
@@ -18,6 +21,7 @@ def updateCommitAuthor(name, email):
 def pullRepo():
     subprocess.check_call(CHECKOUTBRANCHCMD)
     subprocess.check_call(RESETCMD)
+    subprocess.check_call(PULLCONFIG)
     subprocess.check_call(PULLCMD)
     
 def updateRepo(commitMessage):    

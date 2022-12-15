@@ -3,7 +3,7 @@
 <body>
   <div class="columns">. <div class="column is-4 is-offset-4">
       <div class="box">
-        <form action="{{ request.path }}" method="post">
+        <form action="/ccs_ui{{ request.path }}" method="post">
           <div class="field">
             <input class="checkbox" type="checkbox" name="isDarkMode" {% if isDarkMode %} checked {% endif %} value="True" />
             <label class="checkbox" for="isDarkMode">Dark mode</label>
@@ -26,7 +26,7 @@
         </form>
       </div> 
       <div class="box">
-        <a class="button is-black is-fullwidth" href="/adminPage">Admin Page</a>
+        <a class="button is-black is-fullwidth" href="/ccs_ui{{url_for('adminPage')}}">Admin Page</a>
       </div>
     </div>
   </div>
