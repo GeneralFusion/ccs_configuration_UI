@@ -1,20 +1,23 @@
 
 from yaml import safe_load, dump
 import pathlib
-CONFIGURL = pathlib.Path.cwd() / 'gitTestRepo'
+CONFIGURL = pathlib.Path.cwd() / 'configRepo'
 def getClients(file, clientNumber):
     clients = {}
-
+    print("client number is ", clientNumber)
     try:#Retrieve clients
+        print("Printing clients: ", flush=True)
+        print(file)
         clients = file['clients']
-        clients = {clientKey:client for clientKey,client in clients.items() if clientKey == clientNumber} #Only return the client that was requested
+        # str(clientKey) is important.
+        clients = {str(clientKey):client for clientKey,client in clients.items() if int(clientKey) == int(clientNumber)} #Only return the client that was requested
     except KeyError:
         print("Error. Client number does not exist")
-    print(clients)
+    
     return clients
 
 def getAdminProperties(file, permissionLevel):
-    if permissionLevel < 3:
+    if int(permissionLevel) < 3:
         return None
     return {key:value for key,value in file.items() if key != 'clients' and key != 'savePath'}
 

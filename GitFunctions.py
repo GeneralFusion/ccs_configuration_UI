@@ -3,8 +3,8 @@ import subprocess
 import os
 import pathlib
 CWD = pathlib.Path.cwd()
-REPOURL = str(CWD / 'gitTestRepo')
-BRANCH = 'newBranch'
+REPOURL = str(CWD / 'configRepo')
+BRANCH = 'dev_uv_ccs_ui'
 CHECKOUTBRANCHCMD = ["git", "-C", REPOURL, "checkout", BRANCH]
 ADDFILESCMD = ["git", "-C", REPOURL, "add", "."]
 COMMITCMD = ["git", "-C", REPOURL, "commit", "-m"]

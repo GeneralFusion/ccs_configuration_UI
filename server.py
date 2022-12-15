@@ -15,6 +15,8 @@ APPURL = '/ccs_ui'
 reactFolder = 'reactui'
 directory = os.getcwd() + f'/{reactFolder}/build/static'
 
+CONFIGFILENAME = 'CCS_Config'
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '3043eb66-4f9f-4d16-a02f-a31fed11cae0'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:uv@database:3306/users'
@@ -28,6 +30,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #Local IP one. This is for the GitHub oAuth
 app.config['GITHUB_CLIENT_ID'] = '6829544e92a4074b8434'
 app.config['GITHUB_CLIENT_SECRET'] = 'e28a5cb4f07cb2788e266442c232569720314081'
+
 
 
 db = SQLAlchemy(app)
@@ -77,20 +80,22 @@ def getData():
 
         USERLEVEL = current_user.permissionLevel
      
-        parsedYAML = ConfigFunctions.parseYAML('testConfig')
+        parsedYAML = ConfigFunctions.parseYAML(CONFIGFILENAME)
+        
         clients = ConfigFunctions.getClients(parsedYAML, currentClientNumber)
         propertiesDB = ConfigFunctions.parseYAML('propertiesDB')
         scopesDB = ConfigFunctions.parseYAML('scopesDB')
         adminProperties = ConfigFunctions.getAdminProperties(parsedYAML, USERLEVEL)
         if(clients == {}):
+            #print(clients)
             return {'Error':'Client not found'}, 512
         return {'clients':clients,'adminProperties': adminProperties,'propertiesDB':propertiesDB, 'scopesDB':scopesDB, 'permissionLevel': USERLEVEL}, 200
     if request.method == 'POST':
         (request.json)#??????????????????????????????????? 
         #For some reason the server crashes if the request json is not read in someway. Must be a flask bug
-        if current_user.permissionLevel >= WRITEPERMISSIONLEVEL:
+        if int(current_user.permissionLevel) >= WRITEPERMISSIONLEVEL:
             print("Updated client:")
-            ConfigFunctions.saveClientsToFile('testConfig',request.json['config'], request.json['adminConfig'])
+            ConfigFunctions.saveClientsToFile(CONFIGFILENAME,request.json['config'], request.json['adminConfig'])
             #IF EVERYTHING GOOD
             if saveRepo(request.json['commitMessage']):
                 return 'Sucess', 201
@@ -209,7 +214,7 @@ def removeUser():
 @app.route('/adminPage', methods=['GET', 'POST'])
 @login_required
 def adminPage():
-    if not isAdmin(current_user) and (current_user.githubName != 'uvkhosa' or current_user.gitHubName != 'aliesbak'):
+    if not (isAdmin(current_user) or current_user.githubName == 'uvkhosa' or current_user.githubName == 'aliesbak'):
         return render_template('adminNotAllowed.html')
     if request.method == 'POST':
         for i in request.form:
@@ -222,7 +227,7 @@ def adminPage():
         users = User.query.all() 
         return render_template('adminPage.html', users=users)
 def isAdmin(user):
-    return user.permissionLevel > 3
+    return int(user.permissionLevel) > 3
 @app.route('/home')
 @login_required
 def home():

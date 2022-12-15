@@ -14,14 +14,14 @@ function SliderChanger(props) {
   }, [])
   const sendChange = () => {
     console.log(props.keyHistory)
-    props.onValueChange([props.keyHistory, value])
+    props.onValueChange([props.keyHistory, parseFloat(value)])
   }
   const handleChange = (event) => {
     setValue(event.target.value)//Update the sliderchanger to reflect newly inputted text
     clearTimeout(handleChangeTimeout.current)//If there is 1200ms of inactivity then send the changes up the tree
     handleChangeTimeout.current = setTimeout(props.onValueChange, 1200, [
       props.keyHistory,
-      event.target.value,
+      parseFloat(event.target.value),
     ])
   }
   function valueValid(v) {

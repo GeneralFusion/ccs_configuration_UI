@@ -1,0 +1,11 @@
+flask
+flask_login
+pymysql
+cryptography
+pyyaml
+GitHub-Flask
+Flask-SQLAlchemy
+bson
+pymongo
+numpy
+
